@@ -5,6 +5,8 @@ from .models import User
 
 @admin.register(User)
 class AdminUser(admin.ModelAdmin):
+    """Админка управления - модель User."""
+
     list_display = (
         "email",
         "phone",
