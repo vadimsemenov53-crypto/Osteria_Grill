@@ -1,9 +1,10 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
 
 class Table(models.Model):
-    """ Модель для представления стола в ресторане. """
+    """Модель для представления стола в ресторане."""
+
     CAT_VIP = "VIP"
     CAT_STANDARD = "standard"
 
@@ -12,11 +13,7 @@ class Table(models.Model):
         (CAT_STANDARD, "Стандарт"),
     ]
 
-    number = models.PositiveIntegerField(
-        unique=True,
-        verbose_name="Номер стола",
-        help_text="Укажите номер стола"
-    )
+    number = models.PositiveIntegerField(unique=True, verbose_name="Номер стола", help_text="Укажите номер стола")
 
     capacity = models.PositiveIntegerField(
         verbose_name="Количество мест",
@@ -30,20 +27,22 @@ class Table(models.Model):
     )
 
     def __str__(self):
-        """ Метод строкового представления - Table. """
+        """Метод строкового представления - Table."""
         return f"Стол №{self.number} - {self.capacity} чел/мест ({self.category})"
 
     class Meta:
-        """ Метаданные модели - Table. """
+        """Метаданные модели - Table."""
+
         verbose_name = "Стол"
         verbose_name_plural = "Столы"
 
 
 class Booking(models.Model):
-    """ Модель представления бронирования. """
+    """Модель представления бронирования."""
 
     class Status(models.TextChoices):
-        """ Подкласс Booking - представление статусов бронирования. """
+        """Подкласс Booking - представление статусов бронирования."""
+
         PENDING = "pending", "Ожидает подтверждения"
         CONFIRMED = "confirmed", "Подтверждено"
         CANCELLED = "cancelled", "Отменено"
@@ -66,8 +65,7 @@ class Booking(models.Model):
     )
 
     start_at = models.DateTimeField(
-        verbose_name="Время начала бронирования",
-        help_text="Укажите время начала бронирования"
+        verbose_name="Время начала бронирования", help_text="Укажите время начала бронирования"
     )
 
     end_at = models.DateTimeField(
@@ -88,11 +86,7 @@ class Booking(models.Model):
         help_text="Укажите статус бронирования",
     )
 
-    comment = models.TextField(
-        verbose_name="Комментарий",
-        help_text="Укажите комментарий",
-        blank=True
-    )
+    comment = models.TextField(verbose_name="Комментарий", help_text="Укажите комментарий", blank=True)
 
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -100,11 +94,14 @@ class Booking(models.Model):
     )
 
     def __str__(self):
-        """ Метод строкового представления - Booking. """
+        """Метод строкового представления - Booking."""
         return f"{self.user} - Стол №{self.table.number}"
 
     class Meta:
-        """ Метаданные модели - Booking. """
+        """Метаданные модели - Booking."""
+
         verbose_name = "Бронирование"
         verbose_name_plural = "Бронирования"
-        ordering = ['-created_at',]
+        ordering = [
+            "-created_at",
+        ]
