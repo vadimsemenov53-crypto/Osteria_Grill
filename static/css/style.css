@@ -1,0 +1,11 @@
+.navbar .nav-link {
+    font-size: 1.4rem;
+    padding: 0.75rem 1rem;
+}
+.navbar-nav {
+    gap: 0.5rem;
+}
+
+.navbar-main-menu {
+    margin-left: 100px;
+}
