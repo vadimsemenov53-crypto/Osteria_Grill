@@ -13,7 +13,12 @@
     {% endblock %}
 </head>
 
-<body>
+{% load restaurant_tags %}
+<body class="d-flex flex-column min-vh-100">
+<!-- Фоновый блок на всю высоту -->
+    <div class="restaurant-background"
+         style="background-image: url('{{ 'restaurant/bd_rest.jpg'|media_filter }}');">
+    </div>
 
 <header>
     {% include "includes/nav_bar.html" %}
