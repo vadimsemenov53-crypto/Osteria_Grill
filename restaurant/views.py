@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, View
+from django.views.generic import View
 
-from restaurant.models import Table, Booking
+from restaurant.models import RestaurantService
 
 
 class HomeView(View):
@@ -10,4 +10,10 @@ class HomeView(View):
 
     def get(self, request):
         """ Метод для рендеринга главной страницы. """
-        return render(request, self.template_name)
+        services = RestaurantService.objects.all()
+
+        context = {
+            "services" : services,
+        }
+
+        return render(request, self.template_name, context=context)

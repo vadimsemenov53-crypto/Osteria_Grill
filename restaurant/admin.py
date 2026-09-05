@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from restaurant.models import Booking, Table
+from restaurant.models import Booking, Table, RestaurantService
 
 
 @admin.register(Table)
@@ -32,3 +32,10 @@ class AdminBooking(admin.ModelAdmin):
         "created_at",
     )
     search_fields = ("user__email",)
+
+
+@admin.register(RestaurantService)
+class AdminRestaurantService(admin.ModelAdmin):
+    """ Админка управления - модель RestaurantService. """
+    list_display = ("order", "name", )
+    search_fields = ("name",)

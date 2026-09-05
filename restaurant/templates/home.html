@@ -67,13 +67,18 @@
                 <div class="card-body p-4">
                     <h4 class="card-title text-light">Перечень предоставляемых услуг</h4>
                     <hr>
+
+                    {% for service in services %}
                     <p class="card-text">
-                        - Посещение ресторана в зале
+                        - {{ service.name }}
                     </p>
                     <ul class="list-unstyled small text-body-secondary">
-                        <li>• уютная атмосфера итальянской остерии, обслуживание официантами, винная карта и сезонные предложения.</li>
+                        <li>{{ service.description }}</li>
                     </ul>
-                    <a href="#" class="btn btn-outline-light mt-3">Узнать больше о шефе</a>
+
+                    <hr>
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
@@ -81,7 +86,6 @@
         <div class="col-1"></div>
     </div>
 </div>
-
 
 
 {% endblock %}

@@ -105,3 +105,31 @@ class Booking(models.Model):
         ordering = [
             "-created_at",
         ]
+
+
+class RestaurantService(models.Model):
+    """Модель для представления услуг ресторана."""
+    name = models.CharField(
+        max_length=250,
+        verbose_name="Название",
+        help_text="Укажите название услуги",
+    )
+    description = models.TextField(
+        verbose_name="Описание",
+        help_text="Укажите описание услуги."
+    )
+
+    order = models.PositiveIntegerField(
+        unique=True,
+        default=0,
+        verbose_name="Порядок отображения",
+        help_text="Чем меньше число, тем выше услуга в списке",
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Услуга ресторана"
+        verbose_name_plural = "Услуги ресторана"
+        ordering = ["order", "name"]
