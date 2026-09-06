@@ -22,6 +22,7 @@
                 </li>
             </ul>
 
+            {% if user.is_authenticated %}
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -32,10 +33,19 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Мой профиль</a></li>
                         <li><a class="dropdown-item" href="#">Мои бронирования</a></li>
-                        <li><a class="dropdown-item" href="#">Выйти</a></li>
+                        <li>
+                            <form method="post" action="{% url 'users:logout' %}" style="display: inline">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item btn-outline-light">Выйти</button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
+            {% else %}
+            <a class="btn btn-light mx-2 ms-auto" href="{% url 'users:login' %}">Зарегистрироваться</a>
+            <a class="btn btn-light mx-2" href="{% url 'users:login' %}">Вход</a>
+            {% endif %}
         </div>
     </div>
 

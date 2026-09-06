@@ -133,7 +133,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 AUTH_USER_MODEL = "users.User"
 
-CACHE_ENABLE = False
+CACHE_ENABLE = True
 if CACHE_ENABLE:
     CACHES = {
         "default": {
