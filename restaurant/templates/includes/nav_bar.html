@@ -10,7 +10,7 @@
             <ul class="navbar-nav navbar-main-menu">
 
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'restaurant:home' %}">Главная</a>
                 </li>
 
                 <li class="nav-item">
@@ -31,7 +31,7 @@
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Мой профиль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:detail' %}">Мой профиль</a></li>
                         <li><a class="dropdown-item" href="#">Мои бронирования</a></li>
                         <li>
                             <form method="post" action="{% url 'users:logout' %}" style="display: inline">

@@ -2,13 +2,14 @@ import secrets
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from users.forms import UserLoginForm, UserRegisterForm
+from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from users.models import User
 
 
@@ -67,3 +68,23 @@ def email_verification(request, token):
     )
 
     return redirect(reverse("users:login"))
+
+
+class UserDetailView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'user_detail.html'
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = 'user_form.html'
+    form_class = UserProfileForm
+
+    def get_object(self):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('users:detail')

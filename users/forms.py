@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.forms import ModelForm
 
 from users.models import User
 
@@ -29,3 +30,9 @@ class UserRegisterForm(StyleFromMixin, UserCreationForm):
     class Meta:
         model = User
         fields = ("email", "phone", "password1", "password2")
+
+
+class UserProfileForm(StyleFromMixin, ModelForm):
+    class Meta:
+        model = User
+        fields = ('avatar', 'first_name', 'last_name', 'phone')
