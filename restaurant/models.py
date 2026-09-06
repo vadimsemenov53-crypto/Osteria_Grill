@@ -139,18 +139,18 @@ class ContactForm(models.Model):
 
     first_name = models.CharField(max_length=100, verbose_name="Имя", help_text="Введите имя")
     last_name = models.CharField(max_length=100, verbose_name="Фамилия", help_text="Введите фамилию")
-    phone = models.CharField(max_length=100, verbose_name="Телефон", help_text="Введите номер телефона")
-    email = models.EmailField(verbose_name="Почта", help_text="Укажите почту", blank=True)
+    phone = models.CharField(unique=True, max_length=100, verbose_name="Телефон", help_text="Введите номер телефона")
+    email = models.EmailField(unique=True, verbose_name="Почта", help_text="Укажите почту", blank=True)
 
     def __str__(self):
         """Метод строкового представления - ContactForm."""
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
-        """Метаданные модели Product"""
+        """Метаданные модели ContactForm"""
 
-        verbose_name = "контакт"
-        verbose_name_plural = "контакты"
+        verbose_name = "контакт обратной связи"
+        verbose_name_plural = "контакты обратной связи"
         ordering = [
             "first_name",
             "last_name",

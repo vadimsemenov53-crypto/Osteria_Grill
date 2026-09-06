@@ -35,4 +35,4 @@ class UserRegisterForm(StyleFromMixin, UserCreationForm):
 class UserProfileForm(StyleFromMixin, ModelForm):
     class Meta:
         model = User
-        fields = ('avatar', 'first_name', 'last_name', 'phone')
+        fields = ("avatar", "first_name", "last_name", "phone")

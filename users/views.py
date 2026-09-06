@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from users.forms import UserLoginForm, UserProfileForm, UserRegisterForm
 from users.models import User
 
 
@@ -72,7 +72,7 @@ def email_verification(request, token):
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
-    template_name = 'user_detail.html'
+    template_name = "user_detail.html"
 
     def get_object(self):
         return self.request.user
@@ -80,11 +80,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
-    template_name = 'user_form.html'
+    template_name = "user_form.html"
     form_class = UserProfileForm
 
     def get_object(self):
         return self.request.user
 
     def get_success_url(self):
-        return reverse_lazy('users:detail')
+        return reverse_lazy("users:detail")
