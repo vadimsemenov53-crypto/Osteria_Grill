@@ -10,7 +10,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name="Почта", help_text="Введите адрес эл.почты")
     phone = PhoneNumberField(
         verbose_name="Телефон",
-        blank=True,
         help_text="Введите номер телефона",
     )
 

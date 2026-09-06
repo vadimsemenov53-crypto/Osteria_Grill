@@ -18,4 +18,40 @@
         </div>
     </form>
 </div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="modal fade" id="registrationSuccessModal" tabindex="-1" aria-labelledby="registrationSuccessModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrationSuccessModalLabel">
+                    Регистрация завершена
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2"><strong>Проверьте вашу электронную почту.</strong></p>
+                <p class="mb-0"> {{ message }} </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal"> Понятно</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+     {% load static %}
+    <script src="{% static 'js/modal_window.js' %}"></script>
+
 {% endblock %}
