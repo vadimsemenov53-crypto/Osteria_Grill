@@ -127,9 +127,44 @@ class RestaurantService(models.Model):
     )
 
     def __str__(self):
+        """Метод строкового представления - RestaurantService."""
         return self.name
 
     class Meta:
         verbose_name = "Услуга ресторана"
         verbose_name_plural = "Услуги ресторана"
         ordering = ["order", "name"]
+
+
+class ContactForm(models.Model):
+    """ Модель для представления формы обратной связи. """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name='Имя',
+        help_text='Введите имя'
+    )
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name='Фамилия',
+        help_text='Введите фамилию'
+    )
+    phone = models.CharField(
+        max_length=100,
+        verbose_name='Телефон',
+        help_text='Введите номер телефона'
+    )
+    email = models.EmailField(
+        verbose_name="Почта",
+        help_text="Укажите почту",
+        blank=True
+    )
+
+    def __str__(self):
+        """Метод строкового представления - ContactForm."""
+        return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        """ Метаданные модели Product"""
+        verbose_name = 'контакт'
+        verbose_name_plural = 'контакты'
+        ordering = ['first_name', 'last_name', ]

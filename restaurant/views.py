@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 
-from restaurant.models import RestaurantService
+from restaurant.models import RestaurantService, ContactForm
 
 
 class HomeView(View):

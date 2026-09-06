@@ -1,0 +1,40 @@
+{% if success %}
+<div class="alert alert-success">
+    Сообщение успешно отправлено!
+</div>
+{% endif %}
+
+<div class="container mt-5">
+    <div class="card h-100 shadow-sm border-0">
+        <form method="post" action="" class="form-floating">
+            {% csrf_token %}
+            <div class="ms-5 me-5 my-3">
+                <label for="first_name">Имя</label>
+                <input type="text" name="first_name" class="form-control" id="first_name"
+                       placeholder="Ваше имя"
+                       required>
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="last_name">Фамилия</label>
+                <input type="text" name="last_name" class="form-control" id="last_name"
+                       placeholder="Ваша фамилия"
+                       required>
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="phone">Телефон</label>
+                <input type="text" name="phone" class="form-control" id="phone"
+                       placeholder="Контактный телефон" required>
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="email">Почта</label>
+                <input type="text" name="email" class="form-control" id="email"
+                       placeholder="Ваша почта (можно не указывать)" required>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-block btn-outline-light ms-5 me-5 my-3">Отправить</button>
+        </form>
+    </div>
+</div>
