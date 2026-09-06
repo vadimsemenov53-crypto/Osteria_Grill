@@ -5,7 +5,8 @@ from users.models import User
 
 
 class StyleFromMixin:
-    """ Класс миксин для стилизации форм. """
+    """Класс миксин для стилизации форм."""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -17,11 +18,14 @@ class StyleFromMixin:
 
 
 class UserLoginForm(StyleFromMixin, AuthenticationForm):
-    """ Форма стилизации UserLoginView. """
+    """Форма стилизации UserLoginView."""
+
     pass
 
+
 class UserRegisterForm(StyleFromMixin, UserCreationForm):
-    """ Форма стилизации UserCreateView. """
+    """Форма стилизации UserCreateView."""
+
     class Meta:
         model = User
-        fields = ('email', "phone", 'password1', 'password2')
+        fields = ("email", "phone", "password1", "password2")
