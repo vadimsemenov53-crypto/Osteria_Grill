@@ -8,9 +8,10 @@ class StyleFromMixin:
 
         for field_name, field in self.fields.items():
             if isinstance(field, forms.BooleanField):
-                field.widget.attrs['class'] = 'form-switch'
+                field.widget.attrs["class"] = "form-switch"
             else:
-                field.widget.attrs['class'] = 'form-control'
+                field.widget.attrs["class"] = "form-control"
+
 
 class UserLoginForm(StyleFromMixin, AuthenticationForm):
     pass
