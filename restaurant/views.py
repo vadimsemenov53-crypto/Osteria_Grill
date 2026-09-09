@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 
 from restaurant.forms import ContactFormModelForm
-from restaurant.models import ContactForm, RestaurantService
+from restaurant.models import RestaurantService
 
 
 class HomeView(View):
@@ -38,3 +38,12 @@ class HomeView(View):
         }
 
         return render(request, self.template_name, context)
+
+
+class RestaurantAboutView(View):
+    """ Контроллер для представления страницы о ресторане. """
+    template_name = "rest_about.html"
+
+    def get(self, request):
+        """ Метод для рендеринга страницы 'о ресторане'. """
+        return render(request, self.template_name)

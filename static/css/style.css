@@ -22,3 +22,8 @@
     z-index: -1;
     opacity: 0.8;
 }
+
+
+.bg-semi-transparent {
+  background-color: rgba(10, 10, 10, 0.9); /* подстрой цвет и 0.6 под нужную прозрачность */
+}
