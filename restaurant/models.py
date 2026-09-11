@@ -155,3 +155,65 @@ class ContactForm(models.Model):
             "first_name",
             "last_name",
         ]
+
+
+class RestaurantEmployee(models.Model):
+    """ Модель для представления сотрудника ресторана. """
+    class Position(models.TextChoices):
+        """Подкласс RestaurantEmployee - представление должностей."""
+
+        CLEANER = "cleaner", "Уборщица"
+        WAITER =  "waiter", "Официант"
+        BARTENDER = "bartender", "Бармен"
+        COOK = "cook", "Повар"
+        HEAD_CHEF = "head_chef", "Шеф-повар"
+        DIRECTOR = "director", "Директор"
+        ADMINISTRATOR = "administrator", "Администратор"
+
+    photo = models.ImageField(
+        upload_to="restaurant/photo_employee",
+        verbose_name="Фото",
+        help_text="Загрузите фото сотрудника",
+        blank=True,
+        null=True,
+    )
+    first_name = models.CharField(max_length=100, verbose_name="Имя", help_text="Введите имя")
+    last_name = models.CharField(max_length=100, verbose_name="Фамилия", help_text="Введите фамилию")
+    post = models.CharField(
+        choices=Position.choices,
+        max_length=100,
+        verbose_name="Должность",
+        help_text="Укажите должность",
+        null=True,
+        blank=True,
+    )
+    work_experience = models.PositiveIntegerField(
+        verbose_name="Опыт",
+        help_text="Укажите опыт работы (лет)",
+        null=True,
+        blank=True,
+    )
+
+    order = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Порядок отображения",
+        help_text="Чем меньше число, тем выше сотрудник в списке",
+    )
+
+    def __str__(self):
+        """Метод строкового представления - RestaurantEmployee."""
+        return f"{self.post} - {self.last_name}"
+
+    class Meta:
+        """Метаданные модели RestaurantEmployee."""
+
+        verbose_name = "контакт обратной связи"
+        verbose_name_plural = "контакты обратной связи"
+        ordering = [
+            "order",
+            "post",
+            "work_experience",
+            "first_name",
+            "last_name",
+        ]
+
