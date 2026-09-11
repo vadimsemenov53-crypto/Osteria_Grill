@@ -1,9 +1,9 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views.generic import View
 
 from restaurant.forms import ContactFormModelForm
-from restaurant.models import RestaurantService
+from restaurant.models import RestaurantService, RestaurantEmployee
 
 
 class HomeView(View):
@@ -21,7 +21,7 @@ class HomeView(View):
             "form": form,
         }
 
-        return render(request, self.template_name, context=context)
+        return render(request, self.template_name, context)
 
     def post(self, request):
         form = ContactFormModelForm(request.POST)
@@ -47,4 +47,9 @@ class RestaurantAboutView(View):
 
     def get(self, request):
         """Метод для рендеринга страницы 'о ресторане'."""
-        return render(request, self.template_name)
+        employees = RestaurantEmployee.objects.exclude(photo="").order_by("order")
+
+        context = {
+            "employees": employees,
+        }
+        return render(request, self.template_name, context)

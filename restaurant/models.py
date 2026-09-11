@@ -212,8 +212,5 @@ class RestaurantEmployee(models.Model):
         verbose_name_plural = "Сотрудники"
         ordering = [
             "order",
-            "post",
-            "work_experience",
-            "first_name",
             "last_name",
         ]
