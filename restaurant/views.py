@@ -41,9 +41,10 @@ class HomeView(View):
 
 
 class RestaurantAboutView(View):
-    """ Контроллер для представления страницы о ресторане. """
+    """Контроллер для представления страницы о ресторане."""
+
     template_name = "rest_about.html"
 
     def get(self, request):
-        """ Метод для рендеринга страницы 'о ресторане'. """
+        """Метод для рендеринга страницы 'о ресторане'."""
         return render(request, self.template_name)

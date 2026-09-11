@@ -158,12 +158,13 @@ class ContactForm(models.Model):
 
 
 class RestaurantEmployee(models.Model):
-    """ Модель для представления сотрудника ресторана. """
+    """Модель для представления сотрудника ресторана."""
+
     class Position(models.TextChoices):
         """Подкласс RestaurantEmployee - представление должностей."""
 
         CLEANER = "cleaner", "Уборщица"
-        WAITER =  "waiter", "Официант"
+        WAITER = "waiter", "Официант"
         BARTENDER = "bartender", "Бармен"
         COOK = "cook", "Повар"
         HEAD_CHEF = "head_chef", "Шеф-повар"
@@ -207,8 +208,8 @@ class RestaurantEmployee(models.Model):
     class Meta:
         """Метаданные модели RestaurantEmployee."""
 
-        verbose_name = "контакт обратной связи"
-        verbose_name_plural = "контакты обратной связи"
+        verbose_name = "Сотрудник"
+        verbose_name_plural = "Сотрудники"
         ordering = [
             "order",
             "post",
@@ -216,4 +217,3 @@ class RestaurantEmployee(models.Model):
             "first_name",
             "last_name",
         ]
-
