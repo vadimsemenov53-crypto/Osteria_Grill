@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import View
 
-from content.models import ContentRestaurantAbout
+from content.models import ContentRestaurantAbout, ContentRestaurantHome
 from restaurant.forms import ContactFormModelForm
 from restaurant.models import RestaurantEmployee, RestaurantService
 
@@ -16,10 +16,12 @@ class HomeView(View):
         """Метод для рендеринга главной страницы."""
         services = RestaurantService.objects.all()
         form = ContactFormModelForm()
+        content = ContentRestaurantHome.objects.get(id=1)
 
         context = {
             "services": services,
             "form": form,
+            "content": content,
         }
 
         return render(request, self.template_name, context)

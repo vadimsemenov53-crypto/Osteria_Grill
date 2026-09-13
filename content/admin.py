@@ -1,12 +1,50 @@
 from django.contrib import admin
 
-from content.models import ContentRestaurantAbout
+from content.models import ContentRestaurantAbout, ContentRestaurantHome
+
+
+@admin.register(ContentRestaurantHome)
+class AdminContentRestaurantHome(admin.ModelAdmin):
+    """Админка управления - модель ContentRestaurantAbout.
+        (управление контентом страницы 'Главная')."""
+
+    fieldsets = (
+        (
+            "Карточка ресторана",
+            {
+                "fields":(
+                    "rest_image",
+                    "rest_name",
+                    "rest_title",
+                    "rest_description",
+                )
+            },
+        ),
+        (
+            "Карточка шеф-повара",
+            {
+                "fields":(
+                    "chef_headline",
+                    "chef_history",
+                    "chef_awards",
+                )
+            }
+        )
+    )
+
+    def has_add_permission(self, request):
+        """Запрещаем создавать больше одной записи."""
+        return not ContentRestaurantAbout.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        """Запрещаем удалять единственную запись контента."""
+        return False
 
 
 @admin.register(ContentRestaurantAbout)
 class AdminContentRestaurantAbout(admin.ModelAdmin):
     """Админка управления - модель ContentRestaurantAbout.
-    (управление контентом страницы 'о ресторане')"""
+    (управление контентом страницы 'о ресторане')."""
 
     fieldsets = (
         (

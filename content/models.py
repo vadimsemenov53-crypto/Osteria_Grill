@@ -1,5 +1,52 @@
 from django.db import models
 
+class ContentRestaurantHome(models.Model):
+    """Модель для представления страницы 'Главная' (изменения - управления контентом)."""
+
+    # Карточка о ресторане
+    rest_image = models.ImageField(
+        upload_to="content/main_rest",
+        verbose_name="Фото для истории",
+        help_text="Загрузите для истории ресторана",
+    )
+    rest_name = models.CharField(
+        max_length=250,
+        verbose_name="Название ресторана",
+        help_text="Введите название ресторана",
+    )
+
+    rest_title = models.CharField(
+        max_length=500,
+        verbose_name="Короткое предисловие",
+        help_text="Введите описывающее ресторан предисловие",
+    )
+
+    rest_description = models.TextField(
+        verbose_name="Описание",
+        help_text="Введите описание ресторана",
+    )
+
+    # Карточка шеф-повара
+    chef_headline = models.CharField(
+        max_length=250,
+        verbose_name="Заголовок",
+        help_text="Укажите заголовок карточки",
+    )
+
+    chef_history = models.TextField(
+        verbose_name="Короткая история шеф-повара",
+        help_text="Введите краткую историю",
+    )
+
+    chef_awards = models.TextField(
+        verbose_name="Награды",
+        help_text="Введите награды. Каждую указывайте с новой строки"
+    )
+
+    class Meta:
+        """Метаданные модели ContentRestaurantHome."""
+        verbose_name = "Страница 'Главная'"
+
 
 class ContentRestaurantAbout(models.Model):
     """Модель для представления страницы 'О ресторане' (изменения - управления контентом)."""
@@ -73,4 +120,5 @@ class ContentRestaurantAbout(models.Model):
     )
 
     class Meta:
+        """Метаданные модели ContentRestaurantAbout."""
         verbose_name = "Страница 'О ресторане'"
