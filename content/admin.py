@@ -1,6 +1,7 @@
 from django.contrib import admin
 from content.models import ContentRestaurantAbout
 
+
 @admin.register(ContentRestaurantAbout)
 class AdminContentRestaurantAbout(admin.ModelAdmin):
     """Админка управления - модель ContentRestaurantAbout.
@@ -26,6 +27,24 @@ class AdminContentRestaurantAbout(admin.ModelAdmin):
                     "chef_title",
                     "chef_p1",
                     "chef_p2",
+                )
+            },
+        ),
+        (
+            "Миссия",
+            {
+                "fields":(
+                    "mission_title",
+                    "mission",
+                )
+            },
+        ),
+        (
+            "Ценности",
+            {
+                "fields":(
+                    "value_title",
+                    "values",
                 )
             },
         ),

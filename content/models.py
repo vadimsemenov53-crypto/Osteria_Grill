@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ContentRestaurantAbout(models.Model):
     """ Модель для представления страницы 'О ресторане' (изменения - управления контентом). """
 
@@ -35,7 +36,7 @@ class ContentRestaurantAbout(models.Model):
     chef_title = models.CharField(
         max_length=500,
         verbose_name="Заголовок истории Шеф-повара",
-        help_text="Укажите заголовок для истории о Шеф-поваре",
+        help_text="Введите заголовок для истории о Шеф-поваре",
     )
 
     chef_p1 = models.TextField(
@@ -46,6 +47,29 @@ class ContentRestaurantAbout(models.Model):
     chef_p2 = models.TextField(
         verbose_name="История шефа (скрытое)",
         help_text="Введите историю шефа. Для нового абзаца оставьте пустую строку.",
+    )
+
+    # Миссия
+    mission_title = models.CharField(
+        max_length=250,
+        verbose_name="Заголовок миссии",
+        help_text="Введите заголовок для миссии",
+    )
+
+    mission = models.TextField(
+        verbose_name="Миссия",
+        help_text="Введите основное содержание (миссию).",
+    )
+
+    # Ценности
+    value_title = models.CharField(
+        verbose_name="Заголовок ценностей",
+        help_text="Введите заголовок ценностей",
+    )
+
+    values = models.TextField(
+        verbose_name="Ценности ресторана",
+        help_text="Каждую ценность указывайте с новой строки",
     )
 
     class Meta:
