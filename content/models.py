@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ContentRestaurantHome(models.Model):
     """Модель для представления страницы 'Главная' (изменения - управления контентом)."""
 
@@ -39,12 +40,12 @@ class ContentRestaurantHome(models.Model):
     )
 
     chef_awards = models.TextField(
-        verbose_name="Награды",
-        help_text="Введите награды. Каждую указывайте с новой строки"
+        verbose_name="Награды", help_text="Введите награды. Каждую указывайте с новой строки"
     )
 
     class Meta:
         """Метаданные модели ContentRestaurantHome."""
+
         verbose_name = "Страница 'Главная'"
 
 
@@ -121,4 +122,5 @@ class ContentRestaurantAbout(models.Model):
 
     class Meta:
         """Метаданные модели ContentRestaurantAbout."""
+
         verbose_name = "Страница 'О ресторане'"

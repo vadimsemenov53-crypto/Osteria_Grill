@@ -6,13 +6,13 @@ from content.models import ContentRestaurantAbout, ContentRestaurantHome
 @admin.register(ContentRestaurantHome)
 class AdminContentRestaurantHome(admin.ModelAdmin):
     """Админка управления - модель ContentRestaurantAbout.
-        (управление контентом страницы 'Главная')."""
+    (управление контентом страницы 'Главная')."""
 
     fieldsets = (
         (
             "Карточка ресторана",
             {
-                "fields":(
+                "fields": (
                     "rest_image",
                     "rest_name",
                     "rest_title",
@@ -23,13 +23,13 @@ class AdminContentRestaurantHome(admin.ModelAdmin):
         (
             "Карточка шеф-повара",
             {
-                "fields":(
+                "fields": (
                     "chef_headline",
                     "chef_history",
                     "chef_awards",
                 )
-            }
-        )
+            },
+        ),
     )
 
     def has_add_permission(self, request):
