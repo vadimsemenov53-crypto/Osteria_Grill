@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import View
 
 from restaurant.forms import ContactFormModelForm
-from restaurant.models import RestaurantService, RestaurantEmployee
+from restaurant.models import RestaurantEmployee, RestaurantService
 
 
 class HomeView(View):

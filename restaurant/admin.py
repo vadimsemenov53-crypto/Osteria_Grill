@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from restaurant.models import Booking, ContactForm, RestaurantService, Table, RestaurantEmployee
+from restaurant.models import Booking, ContactForm, RestaurantEmployee, RestaurantService, Table
 
 
 @admin.register(Table)
@@ -65,6 +65,7 @@ class AdminContactForm(admin.ModelAdmin):
         "email",
     )
 
+
 @admin.register(RestaurantEmployee)
 class AdminRestaurantEmployee(admin.ModelAdmin):
     """Админка управления - модель AdminRestaurantEmployee."""
@@ -75,9 +76,7 @@ class AdminRestaurantEmployee(admin.ModelAdmin):
         "post",
     )
 
-    ordering = (
-        "post",
-    )
+    ordering = ("post",)
 
     search_fields = (
         "first_name",
