@@ -4,15 +4,14 @@
 
             <!-- О ресторане -->
             <div class="col-12 col-md-5">
-                <h4 class="mb-3">Osteria Grill</h4>
+                <h4 class="mb-3">{{ site_content.rest_name }}</h4>
 
                 <p class="text-secondary mb-3">
-                    Итальянская кухня, уютная атмосфера и блюда,
-                    приготовленные с любовью.
+                    {{ site_content.rest_title }}
                 </p>
 
                 <small class="text-secondary">
-                    &copy; 2026 Osteria Grill. Все права защищены.
+                    &copy; 2026 {{ site_content.rest_name }}. Все права защищены.
                 </small>
             </div>
 
@@ -22,13 +21,13 @@
 
                 <ul class="list-unstyled text-secondary">
                     <li class="mb-2">
-                        г. Москва, ул. Итальянская, 15
+                        {{ site_content.address }}
                     </li>
                     <li class="mb-2">
-                        +7 (999) 123-45-67
+                        {{ site_content.phone }}
                     </li>
                     <li>
-                        info@osteria-grill.ru
+                        {{ site_content.email }}
                     </li>
                 </ul>
             </div>
@@ -39,12 +38,12 @@
 
                 <ul class="list-unstyled">
                     <li class="mb-2">
-                        <a href="#" class="text-secondary text-decoration-none">
+                        <a href="{% url 'restaurant:home' %}" class="text-secondary text-decoration-none">
                             Главная
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" class="text-secondary text-decoration-none">
+                        <a href="{% url 'restaurant:about' %}" class="text-secondary text-decoration-none">
                             О ресторане
                         </a>
                     </li>
@@ -67,7 +66,7 @@
 
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
             <small class="text-secondary">
-                Добро пожаловать в Osteria Grill
+                Добро пожаловать в {{ site_content.rest_name }}
             </small>
 
             <div class="mt-2 mt-md-0">
