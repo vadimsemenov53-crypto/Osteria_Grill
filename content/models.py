@@ -50,7 +50,3 @@ class ContentRestaurantAbout(models.Model):
 
     class Meta:
         verbose_name = "Страница 'О ресторане'"
-
-# <p class="lead text-body">
-#     {{ content.chef_story|linebreaks }}
-# </p>

@@ -5,6 +5,8 @@ from django.views.generic import View
 from restaurant.forms import ContactFormModelForm
 from restaurant.models import RestaurantEmployee, RestaurantService
 
+from content.models import ContentRestaurantAbout
+
 
 class HomeView(View):
     """Контроллер главной страницы."""
@@ -48,8 +50,10 @@ class RestaurantAboutView(View):
     def get(self, request):
         """Метод для рендеринга страницы 'о ресторане'."""
         employees = RestaurantEmployee.objects.exclude(photo="").order_by("order")
+        content = ContentRestaurantAbout.objects.get(id=1)
 
         context = {
             "employees": employees,
+            "content": content,
         }
         return render(request, self.template_name, context)
