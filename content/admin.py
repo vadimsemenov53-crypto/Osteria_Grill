@@ -1,6 +1,50 @@
 from django.contrib import admin
 
-from content.models import ContentRestaurantAbout, ContentRestaurantHome
+from content.models import BaseContentRestaurant, ContentRestaurantAbout, ContentRestaurantHome
+
+
+@admin.register(BaseContentRestaurant)
+class AdminBaseContentRestaurant(admin.ModelAdmin):
+    """Админка управления - модель BaseContentRestaurant.
+    (управление-изменение: бар-навигации, футер, задний фон)."""
+
+    fieldsets = (
+        (
+            "Бар навигации",
+            {"fields": ("logo",)},
+        ),
+        (
+            "Задний фон",
+            {"fields": ("background_image",)},
+        ),
+        (
+            "Футер (левая часть)",
+            {
+                "fields": (
+                    "rest_name",
+                    "rest_title",
+                )
+            },
+        ),
+        (
+            "Футер контактные данные",
+            {
+                "fields": (
+                    "address",
+                    "phone",
+                    "email",
+                )
+            },
+        ),
+    )
+
+    def has_add_permission(self, request):
+        """Запрещаем создавать больше одной записи."""
+        return not ContentRestaurantAbout.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        """Запрещаем удалять единственную запись контента."""
+        return False
 
 
 @admin.register(ContentRestaurantHome)
