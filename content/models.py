@@ -2,7 +2,7 @@ from django.db import models
 
 
 class ContentRestaurantAbout(models.Model):
-    """ Модель для представления страницы 'О ресторане' (изменения - управления контентом). """
+    """Модель для представления страницы 'О ресторане' (изменения - управления контентом)."""
 
     # История ресторана
     image_history = models.ImageField(
@@ -14,7 +14,7 @@ class ContentRestaurantAbout(models.Model):
     history_title = models.CharField(
         max_length=500,
         verbose_name="Заголовок истории ресторана.",
-        help_text="Введите заголовок для истории ресторана."
+        help_text="Введите заголовок для истории ресторана.",
     )
     history_p1 = models.TextField(
         verbose_name="Первый пункт",

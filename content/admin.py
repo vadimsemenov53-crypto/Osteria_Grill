@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from content.models import ContentRestaurantAbout
 
 
@@ -33,7 +34,7 @@ class AdminContentRestaurantAbout(admin.ModelAdmin):
         (
             "Миссия",
             {
-                "fields":(
+                "fields": (
                     "mission_title",
                     "mission",
                 )
@@ -42,7 +43,7 @@ class AdminContentRestaurantAbout(admin.ModelAdmin):
         (
             "Ценности",
             {
-                "fields":(
+                "fields": (
                     "value_title",
                     "values",
                 )
@@ -50,10 +51,10 @@ class AdminContentRestaurantAbout(admin.ModelAdmin):
         ),
     )
 
-    # def has_add_permission(self, request):
-    #     """Запрещаем создавать больше одной записи."""
-    #     return not ContentRestaurantAbout.objects.exists()
-    #
-    # def has_delete_permission(self, request, obj=None):
-    #     """Запрещаем удалять единственную запись контента."""
-    #     return False
+    def has_add_permission(self, request):
+        """Запрещаем создавать больше одной записи."""
+        return not ContentRestaurantAbout.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        """Запрещаем удалять единственную запись контента."""
+        return False

@@ -2,10 +2,9 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.views.generic import View
 
+from content.models import ContentRestaurantAbout
 from restaurant.forms import ContactFormModelForm
 from restaurant.models import RestaurantEmployee, RestaurantService
-
-from content.models import ContentRestaurantAbout
 
 
 class HomeView(View):
