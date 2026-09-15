@@ -14,6 +14,8 @@
 
         <div class="restaurant-plan">
 
+            {% include "includes/window_booking.html" %}
+
             <div class="row">
                 <div class="col-4">
                     <div class="restaurant-window">ОКНА</div>
@@ -56,8 +58,18 @@
 
             <div class="restaurant-bar"> БАР</div>
         </div>
+
+
+
     </div>
 </section>
 
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% load static %}
+<script src="{% static 'js/modal_window_booking.js' %}"></script>
 
 {% endblock %}
