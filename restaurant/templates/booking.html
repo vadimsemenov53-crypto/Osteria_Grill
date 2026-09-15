@@ -37,9 +37,16 @@
             <div class="restaurant-tables">
 
                 {% for table in tables %}
-                <button class="restaurant-table
+                <button
+                        class="restaurant-table
                 {% if table.capacity >= 6 %} restaurant-table-large {% endif %}
                 {% if table.capacity <= 2 %} restaurant-table-small {% endif %}"
+                        type="button"
+
+                        data-table-id="{{ table.id }}"
+                        data-table-number="{{ table.number }}"
+                        data-table-capacity="{{ table.capacity }}"
+                        data-table-category="{{ table.category }}"
                 >
 
                     <strong>№{{ table.number }}</strong>
@@ -48,7 +55,7 @@
                     </small>
 
                     {% if table.category == "VIP" %}
-                    <strong>{{ table.category }}</strong>
+                    <strong>{{ table.get_category_display }}</strong>
                     {% endif %}
 
                 </button>
@@ -58,7 +65,6 @@
 
             <div class="restaurant-bar"> БАР</div>
         </div>
-
 
 
     </div>
