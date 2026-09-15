@@ -35,6 +35,7 @@ class Table(models.Model):
 
         verbose_name = "Стол"
         verbose_name_plural = "Столы"
+        ordering = ("number",)
 
 
 class Booking(models.Model):

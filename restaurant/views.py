@@ -4,7 +4,7 @@ from django.views.generic import View
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
 from restaurant.forms import ContactFormModelForm
-from restaurant.models import RestaurantEmployee, RestaurantService
+from restaurant.models import RestaurantEmployee, RestaurantService, Table
 
 
 class HomeView(View):
@@ -57,4 +57,21 @@ class RestaurantAboutView(View):
             "employees": employees,
             "content": content,
         }
+        return render(request, self.template_name, context)
+
+
+class BookingView(View):
+    """Контроллер для представления страницы бронирования."""
+
+    template_name = "booking.html"
+
+    def get(self, request):
+        """Метод для рендеринга страницы 'бронирования'."""
+
+        tables = Table.objects.all()
+
+        context = {
+            "tables": tables,
+        }
+
         return render(request, self.template_name, context)

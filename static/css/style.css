@@ -27,3 +27,106 @@
 .bg-semi-transparent {
   background-color: rgba(10, 10, 10, 0.9); /* подстрой цвет и 0.6 под нужную прозрачность */
 }
+
+.restaurant-plan {
+    position: relative;
+    min-height: 600px;
+    padding: 30px;
+    border: 2px solid;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Окна */
+.restaurant-window {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 4px solid;
+    margin-bottom: 50px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+/* Вход */
+.restaurant-entrance {
+    text-align: center;
+    padding: 10px;
+    border-bottom: 4px solid;
+    border-left: 4px solid;
+    border-right: 4px solid;
+    margin-top: 0px;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+/* Зона со столами */
+.restaurant-tables {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    align-items: center;
+    justify-items: center;
+}
+
+/* Стол */
+.restaurant-table {
+    width: 120px;
+    height: 120px;
+
+    border: 3px solid;
+    border-radius: 30%;
+
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+/* Стол большой */
+.restaurant-table-large {
+    width: 180px;
+    height: 120px;
+    border-radius: 20px;
+}
+
+/* Стол маленький */
+.restaurant-table-small {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+
+/* Изменение масштаба при наведении */
+.restaurant-table:hover {
+    transform: scale(1.08);
+}
+
+/* Номер */
+.restaurant-table strong {
+    font-size: 20px;
+}
+
+/* Количество мест */
+.restaurant-table small {
+    margin-top: 5px;
+}
+
+/* Бар */
+.restaurant-bar {
+    width: 70%;
+    margin: 50px auto 20px;
+    padding: 15px;
+
+    border: 3px solid;
+    border-radius: 15px;
+
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
