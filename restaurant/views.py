@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
-from django.utils import timezone
 
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 from django.views.generic import View
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
-from restaurant.forms import ContactFormModelForm, BookingModelForm
-from restaurant.models import RestaurantEmployee, RestaurantService, Table, Booking
+from restaurant.forms import BookingModelForm, ContactFormModelForm
+from restaurant.models import Booking, RestaurantEmployee, RestaurantService, Table
 
 
 class HomeView(View):
@@ -81,9 +81,8 @@ class BookingView(View):
 
         return render(request, self.template_name, context)
 
-
     def post(self, request):
-        """ Метод обработки POST - запросов бронирования. """
+        """Метод обработки POST - запросов бронирования."""
         tables = Table.objects.all()
         form = BookingModelForm(request.POST)
 
