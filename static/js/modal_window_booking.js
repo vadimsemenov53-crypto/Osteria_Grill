@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // ищем элемент по id ( <strong id="bookingTableCategory"></strong> )
     const bookingTableCategory = document.getElementById("bookingTableCategory");
 
+    // ищем скрытый элемент по id ( <input type="hidden" name="table" id="bookingTableId"> )
+    const bookingTableId = document.getElementById("bookingTableId");
+
     if (modalElement) { //проверка истинности существования окна
 
         //создание управляемого modal-окна
@@ -34,11 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 // если нажал покажи modal window (модальное окно)
 
                 // получаем данные с стола по которому нажали
+                const tableId = table.dataset.tableId;
                 const tableNumber = table.dataset.tableNumber;
                 const tableCapacity = table.dataset.tableCapacity;
                 const tableCategory = table.dataset.tableCategory;
 
                 // записываем в найденные элементы
+                bookingTableId.value = tableId;
                 bookingTableNumber.textContent = `Стол №${tableNumber}`;
                 bookingTableCapacity.textContent = `Вместимость: ${tableCapacity} мест`;
 

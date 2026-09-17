@@ -1,10 +1,13 @@
+from datetime import datetime, timedelta
+from django.utils import timezone
+
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
-from restaurant.forms import ContactFormModelForm
-from restaurant.models import RestaurantEmployee, RestaurantService, Table
+from restaurant.forms import ContactFormModelForm, BookingModelForm
+from restaurant.models import RestaurantEmployee, RestaurantService, Table, Booking
 
 
 class HomeView(View):
@@ -69,9 +72,58 @@ class BookingView(View):
         """Метод для рендеринга страницы 'бронирования'."""
 
         tables = Table.objects.all()
+        form = BookingModelForm()
 
         context = {
             "tables": tables,
+            "form": form,
+        }
+
+        return render(request, self.template_name, context)
+
+
+    def post(self, request):
+        """ Метод обработки POST - запросов бронирования. """
+        tables = Table.objects.all()
+        form = BookingModelForm(request.POST)
+
+        print(request.POST)
+
+        if form.is_valid():
+            print("ФОРМА ВАЛИДНА")
+            booking = form.save(commit=False)
+
+            table_id = request.POST.get("table")
+            table = get_object_or_404(Table, id=table_id)
+
+            booking_date = request.POST.get("bookingDate")
+            booking_time = request.POST.get("bookingTime")
+
+            start_at = datetime.strptime(
+                f"{booking_date} {booking_time}",
+                "%Y-%m-%d %H:%M",
+            )
+            start_at = timezone.make_aware(start_at)
+            end_at = start_at + timedelta(hours=2)
+
+            booking_comment = request.POST.get("bookingComment")
+
+            booking.user = request.user
+            booking.table = table
+            booking.start_at = start_at
+            booking.end_at = end_at
+            booking.status = Booking.Status.PENDING
+            booking.comment = booking_comment
+
+            booking.save()
+
+        else:
+            print("ФОРМА НЕВАЛИДНА")
+            print(form.errors)
+
+        context = {
+            "tables": tables,
+            "form": form,
         }
 
         return render(request, self.template_name, context)

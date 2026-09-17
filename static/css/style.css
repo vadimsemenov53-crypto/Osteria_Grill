@@ -10,7 +10,7 @@
     margin-left: 100px;
 }
 
-
+/* Задний фон страницы */
 .restaurant-background {
     position: fixed;
     inset: 0;
@@ -25,7 +25,7 @@
 
 
 .bg-semi-transparent {
-  background-color: rgba(10, 10, 10, 0.9); /* подстрой цвет и 0.6 под нужную прозрачность */
+  background-color: rgba(10, 10, 10, 0.9); /* подстроить цвет и под нужную прозрачность */
 }
 
 .restaurant-plan {
@@ -120,11 +120,11 @@
 /* Бар */
 .restaurant-bar {
     width: 70%;
-    margin: 50px auto 20px;
+    margin: 100px auto 20px;
     padding: 15px;
 
-    border: 3px solid;
-    border-radius: 15px;
+    border: 4px solid;
+    border-radius: 35px;
 
     text-align: center;
     font-weight: bold;
