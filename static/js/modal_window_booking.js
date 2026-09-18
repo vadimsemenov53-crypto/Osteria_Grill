@@ -28,6 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
         //создание управляемого modal-окна
         const modal = new bootstrap.Modal(modalElement);
 
+        const hasFormErrors = modalElement.dataset.formErrors === "true";
+
+        if (hasFormErrors) {
+            modal.show();
+        }
+
         tables.forEach(function (table) {
         // forEach - пройдись по каждому элементу
         // table - текущий стол

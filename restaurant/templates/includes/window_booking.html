@@ -3,7 +3,9 @@
     <div class="modal fade"
          id="bookingModal"
          tabindex="-1"
-         aria-hidden="true">
+         aria-hidden="true"
+         data-form-errors="{% if form.errors %}true{% else %}false{% endif %}"
+    >
 
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -36,6 +38,7 @@
                             type="hidden"
                             name="table"
                             id="bookingTableId"
+                            value="{{ selected_table_id|default:'' }}"
                     >
 
                     <div class="mb-3">
@@ -45,13 +48,16 @@
                             Дата
                         </label>
 
-                        <input
-                                type="date"
-                                id="bookingDate"
-                                name="bookingDate"
-                                class="form-control">
+                        {% if form.booking_date.errors %}
+                        {{ form.booking_date.errors }}
+                        {% endif %}
 
+                        <input type="date"
+                               id="bookingDate"
+                               name="booking_date"
+                               class="form-control">
                     </div>
+
                     <div class="mb-3">
                         <label for="bookingTime"
                                class="form-label">
@@ -61,7 +67,7 @@
                         <input
                                 type="time"
                                 id="bookingTime"
-                                name="bookingTime"
+                                name="booking_time"
                                 class="form-control">
                     </div>
 
@@ -70,6 +76,7 @@
                                class="form-label">
                             Количество гостей
                         </label>
+
                         <input
                                 type="number"
                                 id="bookingGuests"

@@ -86,22 +86,17 @@ class BookingView(View):
         tables = Table.objects.all()
         form = BookingModelForm(request.POST)
 
-        print(request.POST)
+        table_id = request.POST.get("table")
 
         if form.is_valid():
-            print("ФОРМА ВАЛИДНА")
             booking = form.save(commit=False)
 
-            table_id = request.POST.get("table")
             table = get_object_or_404(Table, id=table_id)
 
-            booking_date = request.POST.get("bookingDate")
-            booking_time = request.POST.get("bookingTime")
+            booking_date = form.cleaned_data["booking_date"]
+            booking_time = form.cleaned_data["booking_time"]
 
-            start_at = datetime.strptime(
-                f"{booking_date} {booking_time}",
-                "%Y-%m-%d %H:%M",
-            )
+            start_at = datetime.combine(booking_date, booking_time)
             start_at = timezone.make_aware(start_at)
             end_at = start_at + timedelta(hours=2)
 
@@ -116,13 +111,10 @@ class BookingView(View):
 
             booking.save()
 
-        else:
-            print("ФОРМА НЕВАЛИДНА")
-            print(form.errors)
-
         context = {
             "tables": tables,
             "form": form,
+            "selected_table_id": table_id,
         }
 
         return render(request, self.template_name, context)
