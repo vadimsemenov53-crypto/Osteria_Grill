@@ -23,14 +23,39 @@ document.addEventListener("DOMContentLoaded", function () {
     // ищем скрытый элемент по id ( <input type="hidden" name="table" id="bookingTableId"> )
     const bookingTableId = document.getElementById("bookingTableId");
 
+    // присваиваем значение
+    const selectedTableId = bookingTableId.value;
+
     if (modalElement) { //проверка истинности существования окна
 
         //создание управляемого modal-окна
         const modal = new bootstrap.Modal(modalElement);
 
+        // Проверка истинности ( data-form-errors="{% if form.errors %}true{% else %}false{% endif %}" )
         const hasFormErrors = modalElement.dataset.formErrors === "true";
 
         if (hasFormErrors) {
+            const selectedTable = document.querySelector(
+                `[data-table-id="${selectedTableId}"]`
+            );
+
+            if (selectedTable) {
+                const tableNumber = selectedTable.dataset.tableNumber;
+                const tableCapacity = selectedTable.dataset.tableCapacity;
+                const tableCategory = selectedTable.dataset.tableCategory;
+
+                bookingTableNumber.textContent =
+                    `Стол №${tableNumber}`;
+
+                bookingTableCapacity.textContent =
+                    `Вместимость: ${tableCapacity} мест`;
+
+                bookingTableCategory.textContent = "";
+
+                if (tableCategory == "VIP") {
+                    bookingTableCategory.textContent = "Премиум";
+                }
+            }
             modal.show();
         }
 

@@ -15,36 +15,26 @@
                         Забронировать стол
                     </h5>
 
-                    <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Закрыть"
-                    ></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
 
                 <div class="modal-body">
-                    <h5 id="bookingTableNumber">
-                        Стол
-                    </h5>
+                    <h5 id="bookingTableNumber">Стол</h5>
 
-                    <p id="bookingTableCapacity"
-                       class="text-body-secondary">
-                    </p>
+                    <p id="bookingTableCapacity" class="text-body-secondary"></p>
+
                     <strong id="bookingTableCategory"></strong>
+
                     <hr>
 
-                    <input
-                            type="hidden"
-                            name="table"
-                            id="bookingTableId"
-                            value="{{ selected_table_id|default:'' }}"
+                    <input type="hidden"
+                           name="table"
+                           id="bookingTableId"
+                           value="{{ selected_table_id|default:'' }}"
                     >
 
                     <div class="mb-3">
-
-                        <label for="bookingDate"
-                               class="form-label">
+                        <label for="bookingDate" class="form-label">
                             Дата
                         </label>
 
@@ -57,12 +47,12 @@
                         <input type="date"
                                id="bookingDate"
                                name="booking_date"
-                               class="form-control">
+                               class="form-control"
+                        >
                     </div>
 
                     <div class="mb-3">
-                        <label for="bookingTime"
-                               class="form-label">
+                        <label for="bookingTime" class="form-label">
                             Время
                         </label>
 
@@ -72,16 +62,15 @@
                         </div>
                         {% endif %}
 
-                        <input
-                                type="time"
-                                id="bookingTime"
-                                name="booking_time"
-                                class="form-control">
+                        <input type="time"
+                               id="bookingTime"
+                               name="booking_time"
+                               class="form-control"
+                        >
                     </div>
 
                     <div class="mb-3">
-                        <label for="bookingGuests"
-                               class="form-label">
+                        <label for="bookingGuests" class="form-label">
                             Количество гостей
                         </label>
 
@@ -91,25 +80,24 @@
                         </div>
                         {% endif %}
 
-                        <input
-                                type="number"
-                                id="bookingGuests"
-                                name="guests"
-                                class="form-control"
-                                min="1">
+                        <input type="number"
+                               id="bookingGuests"
+                               name="guests"
+                               class="form-control"
+                               min="1"
+                        >
                     </div>
 
                     <div class="mb-3">
-                        <label for="bookingComment"
-                               class="form-label">
+                        <label for="bookingComment" class="form-label">
                             Комментарий (не обязательно)
                         </label>
 
-                        <input
-                                type="text"
-                                id="bookingComment"
-                                name="bookingComment"
-                                class="form-control">
+                        <input type="text"
+                               id="bookingComment"
+                               name="bookingComment"
+                               class="form-control"
+                        >
                     </div>
                 </div>
 
