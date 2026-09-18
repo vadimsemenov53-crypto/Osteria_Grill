@@ -1,3 +1,5 @@
+from datetime import time
+
 from django import forms
 from django.utils import timezone
 
@@ -59,3 +61,27 @@ class BookingModelForm(forms.ModelForm):
             raise forms.ValidationError("Нельзя забронировать стол на прошедшую дату.")
 
         return booking_date
+
+    def clean(self):
+        """Метод валидации данных ограничивающий выбор времени бронирования."""
+        cleaned_data = super().clean()
+
+        booking_date = cleaned_data.get("booking_date")
+        booking_time = cleaned_data.get("booking_time")
+
+        if not booking_date or not booking_time:
+            return cleaned_data
+
+        if booking_date == timezone.localdate():
+            current_time = timezone.localtime().time()
+
+            if booking_time < current_time:
+                raise forms.ValidationError("Нельзя забронировать стол на прошедшее время")
+
+        if booking_time < time(12, 0):
+            raise forms.ValidationError("Ресторан начинает работать с 12:00.")
+
+        if booking_time > time(22, 0):
+            raise forms.ValidationError("Последнее время начала бронирования — 22:00.")
+
+        return cleaned_data

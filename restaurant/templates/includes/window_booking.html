@@ -66,6 +66,12 @@
                             Время
                         </label>
 
+                        {% if form.non_field_errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
                         <input
                                 type="time"
                                 id="bookingTime"
