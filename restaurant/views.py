@@ -91,8 +91,6 @@ class BookingView(View):
         if form.is_valid():
             booking = form.save(commit=False)
 
-            table = get_object_or_404(Table, id=table_id)
-
             booking_date = form.cleaned_data["booking_date"]
             booking_time = form.cleaned_data["booking_time"]
 
@@ -103,7 +101,6 @@ class BookingView(View):
             booking_comment = request.POST.get("bookingComment")
 
             booking.user = request.user
-            booking.table = table
             booking.start_at = start_at
             booking.end_at = end_at
             booking.status = Booking.Status.PENDING

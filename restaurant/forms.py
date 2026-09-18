@@ -1,7 +1,7 @@
 from django import forms
 from django.utils import timezone
 
-from restaurant.models import Booking, ContactForm
+from restaurant.models import Booking, ContactForm, Table
 
 
 class ContactFormModelForm(forms.ModelForm):
@@ -35,14 +35,19 @@ class BookingModelForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ["guests", "booking_date", "booking_time"]
+        fields = ["table", "guests", "booking_date", "booking_time"]
 
     def clean_guests(self):
         """Метод валидации данных ограничивающий выбор 0 количества гостей."""
+        table = self.cleaned_data["table"]
+
         guests = self.cleaned_data["guests"]
 
         if guests < 1:
             raise forms.ValidationError("Количество гостей должно быть не менее 1.")
+
+        if guests > table.capacity:
+            raise forms.ValidationError(f"Количество гостей больше вместимости стола - {table.capacity}")
 
         return guests
 
