@@ -35,24 +35,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const hasFormErrors = modalElement.dataset.formErrors === "true";
 
         if (hasFormErrors) {
+            // ищет элемент html по css-селектору
             const selectedTable = document.querySelector(
                 `[data-table-id="${selectedTableId}"]`
             );
 
             if (selectedTable) {
+                // заполнение данных
                 const tableNumber = selectedTable.dataset.tableNumber;
                 const tableCapacity = selectedTable.dataset.tableCapacity;
                 const tableCategory = selectedTable.dataset.tableCategory;
 
-                bookingTableNumber.textContent =
-                    `Стол №${tableNumber}`;
-
-                bookingTableCapacity.textContent =
-                    `Вместимость: ${tableCapacity} мест`;
-
+                // передача данных
+                bookingTableNumber.textContent = `Стол №${tableNumber}`;
+                bookingTableCapacity.textContent = `Вместимость: ${tableCapacity} мест`;
                 bookingTableCategory.textContent = "";
 
-                if (tableCategory == "VIP") {
+                if (tableCategory == "VIP") { // если статус ... то заполнить ..
                     bookingTableCategory.textContent = "Премиум";
                 }
             }

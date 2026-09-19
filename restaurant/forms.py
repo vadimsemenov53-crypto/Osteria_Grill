@@ -37,7 +37,7 @@ class BookingModelForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        fields = ["table", "guests", "booking_date", "booking_time"]
+        fields = ["table", "guests", "booking_date", "booking_time", "comment"]
 
     def clean_guests(self):
         """Метод валидации данных ограничивающий выбор 0 количества гостей."""

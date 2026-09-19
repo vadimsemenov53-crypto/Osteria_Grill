@@ -98,15 +98,18 @@ class BookingView(View):
             start_at = timezone.make_aware(start_at)
             end_at = start_at + timedelta(hours=2)
 
-            booking_comment = request.POST.get("bookingComment")
-
             booking.user = request.user
             booking.start_at = start_at
             booking.end_at = end_at
             booking.status = Booking.Status.PENDING
-            booking.comment = booking_comment
 
             booking.save()
+
+            messages.success(
+                request,
+                f"""Спасибо! Мы получили вашу заявку на бронирование стола №{table_id}.
+                Перейдите на почту для подтверждения бронирования."""
+            )
 
         context = {
             "tables": tables,
