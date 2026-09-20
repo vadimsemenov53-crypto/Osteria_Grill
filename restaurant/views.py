@@ -178,3 +178,25 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse("restaurant:booking_list")
+
+
+class BookingCancelView(LoginRequiredMixin, View):
+    """Контроллер для отмены бронирования."""
+
+    def post(self, request, pk):
+        booking = get_object_or_404(
+            Booking,
+            pk=pk,
+            user=request.user,
+        )
+
+        booking.status = Booking.Status.CANCELLED
+        booking.token = None
+        booking.save()
+
+        messages.success(
+            request,
+            f"Бронирование стола №{booking.table.number} отменено.",
+        )
+
+        return redirect("restaurant:booking_list")

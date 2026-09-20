@@ -33,7 +33,20 @@
 
             <div>
                 <a href="{% url 'restaurant:booking_update' booking.pk %}" class="btn btn-sm btn-outline-primary me-2">Изменить</a>
-                <a href="#" class="btn btn-sm btn-outline-danger">Отменить</a>
+
+                {% if booking.status != "cancelled"  %}
+                <form method="post" action="{% url 'restaurant:booking_cancel' booking.pk %}"
+                      class="d-inline">
+                    {% csrf_token %}
+
+                    <button type="submit"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Вы уверены, что хотите отменить бронирование?');">
+                        Отменить
+                    </button>
+                </form>
+                {% endif %}
+
             </div>
         </div>
         {% empty %}
