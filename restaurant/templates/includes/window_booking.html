@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="bookingTime" class="form-label">
+                        <label class="form-label">
                             Время
                         </label>
 
@@ -63,12 +63,7 @@
                         </div>
                         {% endif %}
 
-                        <input type="time"
-                               id="bookingTime"
-                               name="booking_time"
-                               class="form-control"
-                               value="{{ form.booking_time.value|default:'' }}"
-                        >
+                        {{ form.booking_time }}
                     </div>
 
                     <div class="mb-3">

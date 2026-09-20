@@ -1,9 +1,96 @@
-from datetime import time
+from datetime import datetime, timedelta
 
 from django import forms
 from django.utils import timezone
 
-from restaurant.models import Booking, ContactForm, Table
+from restaurant.booking_validation import BookingValidationMixin
+from restaurant.models import Booking, ContactForm
+
+
+class BookingUpdateForm(BookingValidationMixin, forms.ModelForm):
+    """Форма модели - Booking (обновление данных)."""
+
+    booking_date = forms.DateField(
+        label="Дата бронирования",
+        widget=forms.DateInput(
+            attrs={
+                "type": "date",
+                "class": "form-control",
+            }
+        ),
+    )
+
+    booking_time = forms.ChoiceField(
+        label="Время бронирования",
+        choices=[
+            ("12:00", "12:00"),
+            ("14:00", "14:00"),
+            ("16:00", "16:00"),
+            ("18:00", "18:00"),
+            ("20:00", "20:00"),
+            ("22:00", "22:00"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        """Инициализация полей booking_date, booking_time"""
+        super().__init__(*args, **kwargs)
+
+        if self.instance.pk:
+            local_start = timezone.localtime(self.instance.start_at)
+
+            self.fields["booking_date"].initial = local_start.date()
+            self.fields["booking_time"].initial = local_start.time()
+
+    def save(self, commit=True):
+        """Сохраняет изменённые дату и время бронирования."""
+        booking = super().save(commit=False)
+
+        booking_date = self.cleaned_data["booking_date"]
+        booking_time = datetime.strptime(
+            self.cleaned_data["booking_time"],
+            "%H:%M",
+        ).time()
+
+        start_at = datetime.combine(
+            booking_date,
+            booking_time,
+        )
+
+        start_at = timezone.make_aware(start_at)
+
+        booking.start_at = start_at
+        booking.end_at = start_at + timedelta(hours=2)
+
+        if commit:
+            booking.save()
+
+        return booking
+
+    class Meta:
+        model = Booking
+        fields = ["table", "booking_date", "booking_time", "guests", "comment"]
+
+        widgets = {
+            "guests": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "min": 1,
+                }
+            ),
+            "table": forms.Select(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+            "comment": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                }
+            ),
+        }
 
 
 class ContactFormModelForm(forms.ModelForm):
@@ -14,7 +101,7 @@ class ContactFormModelForm(forms.ModelForm):
         fields = ["first_name", "last_name", "phone", "email"]
 
 
-class BookingModelForm(forms.ModelForm):
+class BookingModelForm(BookingValidationMixin, forms.ModelForm):
     """Форма модели - Booking (валидация данных)."""
 
     booking_date = forms.DateField(
@@ -26,11 +113,19 @@ class BookingModelForm(forms.ModelForm):
         ),
     )
 
-    booking_time = forms.TimeField(
+    booking_time = forms.ChoiceField(
         label="Время бронирования",
-        widget=forms.TimeInput(
+        choices=[
+            ("12:00", "12:00"),
+            ("14:00", "14:00"),
+            ("16:00", "16:00"),
+            ("18:00", "18:00"),
+            ("20:00", "20:00"),
+            ("22:00", "22:00"),
+        ],
+        widget=forms.Select(
             attrs={
-                "type": "time",
+                "class": "form-control",
             }
         ),
     )
@@ -38,50 +133,3 @@ class BookingModelForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ["table", "guests", "booking_date", "booking_time", "comment"]
-
-    def clean_guests(self):
-        """Метод валидации данных ограничивающий выбор 0 количества гостей."""
-        table = self.cleaned_data["table"]
-
-        guests = self.cleaned_data["guests"]
-
-        if guests < 1:
-            raise forms.ValidationError("Количество гостей должно быть не менее 1.")
-
-        if guests > table.capacity:
-            raise forms.ValidationError(f"Количество гостей больше вместимости стола - {table.capacity}")
-
-        return guests
-
-    def clean_booking_date(self):
-        """Метод валидации данных ограничивающий выбор прошедшую дату."""
-        booking_date = self.cleaned_data["booking_date"]
-
-        if booking_date < timezone.localdate():
-            raise forms.ValidationError("Нельзя забронировать стол на прошедшую дату.")
-
-        return booking_date
-
-    def clean(self):
-        """Метод валидации данных ограничивающий выбор времени бронирования."""
-        cleaned_data = super().clean()
-
-        booking_date = cleaned_data.get("booking_date")
-        booking_time = cleaned_data.get("booking_time")
-
-        if not booking_date or not booking_time:
-            return cleaned_data
-
-        if booking_date == timezone.localdate():
-            current_time = timezone.localtime().time()
-
-            if booking_time < current_time:
-                raise forms.ValidationError("Нельзя забронировать стол на прошедшее время")
-
-        if booking_time < time(12, 0):
-            raise forms.ValidationError("Ресторан начинает работать с 12:00.")
-
-        if booking_time > time(22, 0):
-            raise forms.ValidationError("Последнее время начала бронирования — 22:00.")
-
-        return cleaned_data

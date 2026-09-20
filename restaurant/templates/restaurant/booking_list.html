@@ -11,19 +11,28 @@
         <div class="list-group-item d-flex align-items-center justify-content-between">
             <div class="me-4">
                 <div><strong>Стол №{{ booking.table.number }}</strong></div>
+
                 <small class="text-muted">
                     {{ booking.start_at|date:"j F" }}
                     с {{ booking.start_at|date:"H:i" }}
                     до {{ booking.end_at|date:"H:i" }}
                 </small>
+
                 <br>
                 <small class="text-muted">
-                Состояние: {{ booking.get_status_display }}
+                    Состояние: {{ booking.get_status_display }}
                 </small>
+
+                {% if booking.comment %}
+                <br>
+                <small class="text-muted">
+                    Комментарий: {{ booking.comment }}
+                </small>
+                {% endif %}
             </div>
 
             <div>
-                <a href="#" class="btn btn-sm btn-outline-primary me-2">Изменить</a>
+                <a href="{% url 'restaurant:booking_update' booking.pk %}" class="btn btn-sm btn-outline-primary me-2">Изменить</a>
                 <a href="#" class="btn btn-sm btn-outline-danger">Отменить</a>
             </div>
         </div>

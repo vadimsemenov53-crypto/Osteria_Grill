@@ -14,6 +14,11 @@ class StyleFromMixin:
         for field_name, field in self.fields.items():
             if isinstance(field, forms.BooleanField):
                 field.widget.attrs["class"] = "form-switch"
+            elif isinstance(field, forms.DateTimeField):
+                field.widget.attrs = {
+                    "type": "datetime-local",
+                    "class": "form-control",
+                }
             else:
                 field.widget.attrs["class"] = "form-control"
 

@@ -5,13 +5,13 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import View, ListView
+from django.views.generic import ListView, UpdateView, View
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
-from restaurant.forms import BookingModelForm, ContactFormModelForm
+from restaurant.forms import BookingModelForm, BookingUpdateForm, ContactFormModelForm
 from restaurant.models import Booking, RestaurantEmployee, RestaurantService, Table
 
 
@@ -99,6 +99,12 @@ class BookingView(View):
             booking_date = form.cleaned_data["booking_date"]
             booking_time = form.cleaned_data["booking_time"]
 
+            if booking_time:
+                booking_time = datetime.strptime(
+                    booking_time,
+                    "%H:%M",
+                ).time()
+
             start_at = datetime.combine(booking_date, booking_time)
             start_at = timezone.make_aware(start_at)
             end_at = start_at + timedelta(hours=2)
@@ -142,19 +148,33 @@ class BookingView(View):
 
 
 def booking_verification(request, token):
-    """ Функция подтверждения бронирования по токену. """
+    """Функция подтверждения бронирования по токену."""
     booking = get_object_or_404(Booking, token=token)
     booking.status = Booking.Status.CONFIRMED
     booking.token = None
     booking.save()
 
-    return redirect(reverse("restaurant:home"))
+    return redirect(reverse("restaurant:booking_list"))
 
 
 class BookingListView(LoginRequiredMixin, ListView):
-    """ Контроллер для представления страницы 'Мои бронирования.' """
+    """Контроллер для представления страницы 'Мои бронирования.'"""
+
     model = Booking
 
     def get_queryset(self):
-        """ Метод переопределения отображаемых данных. """
+        """Метод переопределения отображаемых данных."""
         return Booking.objects.filter(user=self.request.user)
+
+
+class BookingUpdateView(LoginRequiredMixin, UpdateView):
+    """Контроллер для изменения бронирования."""
+
+    model = Booking
+    form_class = BookingUpdateForm
+    success_url = reverse_lazy("restaurant:booking_list")
+    # permission_required = 'restaurant.change_booking'
+    raise_exception = True
+
+    def get_success_url(self):
+        return reverse("restaurant:booking_list")
