@@ -1,7 +1,10 @@
+import secrets
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render
+from django.core.mail import send_mail
+from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic import View
 
@@ -103,12 +106,28 @@ class BookingView(View):
             booking.end_at = end_at
             booking.status = Booking.Status.PENDING
 
+            token = secrets.token_hex(16)
+            booking.token = token
+
             booking.save()
 
             messages.success(
                 request,
-                f"""Спасибо! Мы получили вашу заявку на бронирование стола №{table_id}.
-                Перейдите на почту для подтверждения бронирования."""
+                f"""Спасибо! Мы получили вашу заявку на бронирование стола №{booking.table.number}.
+                Перейдите на почту для подтверждения бронирования.""",
+            )
+
+            host = self.request.get_host()
+            url = f"http://{host}/users/email-confirm/{token}/"
+
+            send_mail(
+                subject="OSTERIA GRILL Подтверждение бронирования",
+                message=f"Здравствуйте, ваша заявка на бронирование.\n"
+                f"Стол №{booking.table.number}, {booking.guests} человек.\n"
+                f"C {booking.start_at} до {booking.end_at}.\n"
+                f"Перейди по ссылке для подтверждения бронирования стола: {url}\n",
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=[booking.user.email],
             )
 
         context = {

@@ -94,6 +94,8 @@ class Booking(models.Model):
         verbose_name="Дата создания",
     )
 
+    token = models.CharField(max_length=100, verbose_name="Token", blank=True, null=True)
+
     def __str__(self):
         """Метод строкового представления - Booking."""
         return f"{self.user} - Стол №{self.table.number}"
