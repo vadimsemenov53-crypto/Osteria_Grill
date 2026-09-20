@@ -3,10 +3,12 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import View
+from django.views.generic import View, ListView
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
 from restaurant.forms import BookingModelForm, ContactFormModelForm
@@ -118,7 +120,7 @@ class BookingView(View):
             )
 
             host = self.request.get_host()
-            url = f"http://{host}/users/email-confirm/{token}/"
+            url = f"http://{host}/restaurant/booking-confirm/{token}/"
 
             send_mail(
                 subject="OSTERIA GRILL Подтверждение бронирования",
@@ -137,3 +139,22 @@ class BookingView(View):
         }
 
         return render(request, self.template_name, context)
+
+
+def booking_verification(request, token):
+    """ Функция подтверждения бронирования по токену. """
+    booking = get_object_or_404(Booking, token=token)
+    booking.status = Booking.Status.CONFIRMED
+    booking.token = None
+    booking.save()
+
+    return redirect(reverse("restaurant:home"))
+
+
+class BookingListView(LoginRequiredMixin, ListView):
+    """ Контроллер для представления страницы 'Мои бронирования.' """
+    model = Booking
+
+    def get_queryset(self):
+        """ Метод переопределения отображаемых данных. """
+        return Booking.objects.filter(user=self.request.user)

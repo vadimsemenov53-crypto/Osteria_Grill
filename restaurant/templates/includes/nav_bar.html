@@ -32,7 +32,7 @@
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'users:detail' %}">Мой профиль</a></li>
-                        <li><a class="dropdown-item" href="#">Мои бронирования</a></li>
+                        <li><a class="dropdown-item" href="{% url 'restaurant:booking_list' %}">Мои бронирования</a></li>
                         <li>
                             <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                 {% csrf_token %}

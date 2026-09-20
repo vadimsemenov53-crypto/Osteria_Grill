@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Osteria Grill - Ваши бронирования.{% endblock %}
+
+{% block content %}
+
+<div class="container py-5 bg-semi-transparent mt-5">
+    <h3>Ваши бронирования</h3>
+    <div class="list-group">
+        {% for booking in object_list %}
+        <div class="list-group-item d-flex align-items-center justify-content-between">
+            <div class="me-4">
+                <div><strong>Стол №{{ booking.table.number }}</strong></div>
+                <small class="text-muted">
+                    {{ booking.start_at|date:"j F" }}
+                    с {{ booking.start_at|date:"H:i" }}
+                    до {{ booking.end_at|date:"H:i" }}
+                </small>
+                <br>
+                <small class="text-muted">
+                Состояние: {{ booking.get_status_display }}
+                </small>
+            </div>
+
+            <div>
+                <a href="#" class="btn btn-sm btn-outline-primary me-2">Изменить</a>
+                <a href="#" class="btn btn-sm btn-outline-danger">Отменить</a>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-body-secondary">Бронирований нет</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
