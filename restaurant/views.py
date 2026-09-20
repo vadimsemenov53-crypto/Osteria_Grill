@@ -88,6 +88,9 @@ class BookingView(View):
 
     def post(self, request):
         """Метод обработки POST - запросов бронирования."""
+        if not request.user.is_authenticated:
+            return redirect("users:login")
+
         tables = Table.objects.all()
         form = BookingModelForm(request.POST)
 
