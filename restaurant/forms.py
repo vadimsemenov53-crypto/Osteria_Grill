@@ -30,7 +30,12 @@ class BookingUpdateForm(BookingValidationMixin, forms.ModelForm):
             ("20:00", "20:00"),
             ("22:00", "22:00"),
         ],
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+                "id": "bookingTime",
+            }
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -126,6 +131,7 @@ class BookingModelForm(BookingValidationMixin, forms.ModelForm):
         widget=forms.Select(
             attrs={
                 "class": "form-control",
+                "id": "bookingTime",
             }
         ),
     )

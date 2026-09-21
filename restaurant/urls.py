@@ -2,7 +2,7 @@ from django.urls import path
 
 from restaurant.apps import RestaurantConfig
 from restaurant.views import (BookingCancelView, BookingListView, BookingUpdateView, BookingView, HomeView,
-                              RestaurantAboutView, booking_verification)
+                              RestaurantAboutView, booking_verification, table_bookings)
 
 app_name = RestaurantConfig.name
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path("booking_list/", BookingListView.as_view(), name="booking_list"),
     path("booking_update/<int:pk>/update/", BookingUpdateView.as_view(), name="booking_update"),
     path("booking_cancel/<int:pk>/", BookingCancelView.as_view(), name="booking_cancel"),
+    path("table-bookings/", table_bookings, name="table_bookings"),
 ]

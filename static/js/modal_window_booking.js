@@ -26,6 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // присваиваем значение
     const selectedTableId = bookingTableId.value;
 
+    // ищем элемент по id ( <input type="date" id="bookingDate" name="booking_date"....> )
+    const bookingDate = document.getElementById("bookingDate")
+
+    // ищем данные о времени бронирования из формы
+    const bookingTime = document.getElementById("bookingTime");
+
     if (modalElement) { //проверка истинности существования окна
 
         //создание управляемого modal-окна
@@ -57,6 +63,29 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             modal.show();
         }
+
+        bookingDate.addEventListener("change", function () {
+            const tableId = bookingTableId.value;
+            const date = bookingDate.value;
+
+            if (!tableId || !date) {
+                return;
+            }
+
+            console.log("tableId:", tableId);
+            console.log("date:", date);
+
+            // Запрос к заранее подготовленной функции отслеживания бронирования на выбранную дату
+            fetch(
+                `/restaurant/table-bookings/?table_id=${tableId}&date=${date}`
+            )
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Ответ сервера:", data);
+
+                    updateBookingTimes(data.bookings);
+                });
+        });
 
         tables.forEach(function (table) {
         // forEach - пройдись по каждому элементу
@@ -90,3 +119,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+// Функция обновления времени бронирования
+function updateBookingTimes(bookings) {
+    const options = bookingTime.options;
+
+    for (let option of options) {
+        option.disabled = false;
+        option.textContent = option.value;
+    }
+
+    bookings.forEach(function (booking) {
+        for (let option of options) {
+            if (option.value === booking.start) {
+                option.disabled = true;
+                option.textContent =
+                    `${option.value} — занято`;
+            }
+        }
+    });
+}

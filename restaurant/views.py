@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -176,7 +177,6 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
     model = Booking
     form_class = BookingUpdateForm
     success_url = reverse_lazy("restaurant:booking_list")
-    # permission_required = 'restaurant.change_booking'
     raise_exception = True
 
     def get_success_url(self):
@@ -203,3 +203,28 @@ class BookingCancelView(LoginRequiredMixin, View):
         )
 
         return redirect("restaurant:booking_list")
+
+
+def table_bookings(request):
+    """Функция отслеживания бронирования столов по дате через get-запрос. Передача данный для JS-скрипта."""
+    table_id = request.GET.get("table_id")
+    booking_date = request.GET.get("date")
+
+    bookings = Booking.objects.filter(
+        table_id=table_id,
+        start_at__date=booking_date,
+        status__in=[
+            Booking.Status.PENDING,
+            Booking.Status.CONFIRMED,
+        ],
+    ).order_by("start_at")
+
+    data = [
+        {
+            "start": timezone.localtime(booking.start_at).strftime("%H:%M"),
+            "end": timezone.localtime(booking.end_at).strftime("%H:%M"),
+        }
+        for booking in bookings
+    ]
+
+    return JsonResponse({"bookings": data})
