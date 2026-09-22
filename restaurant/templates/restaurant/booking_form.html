@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Osteria Grill - Ваши бронирования.{% endblock %}
 
 {% block content %}
@@ -12,6 +14,9 @@
                 <div class="card">
                     <div class="card-body">
                         {% csrf_token %}
+
+                        <input type="hidden" id="bookingId" value="{{ object.pk }}">
+
                         {{ form.as_p }}
                     </div>
                     <button type="submit" class="btn btn-primary mb-3">
@@ -27,4 +32,8 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/booking_update.js' %}"></script>
 {% endblock %}

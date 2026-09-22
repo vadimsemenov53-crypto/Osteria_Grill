@@ -16,6 +16,7 @@ class BookingUpdateForm(BookingValidationMixin, forms.ModelForm):
             attrs={
                 "type": "date",
                 "class": "form-control",
+                "id": "bookingDate",
             }
         ),
     )
@@ -45,8 +46,8 @@ class BookingUpdateForm(BookingValidationMixin, forms.ModelForm):
         if self.instance.pk:
             local_start = timezone.localtime(self.instance.start_at)
 
-            self.fields["booking_date"].initial = local_start.date()
-            self.fields["booking_time"].initial = local_start.time()
+            self.fields["booking_date"].initial = local_start.strftime("%Y-%m-%d")
+            self.fields["booking_time"].initial = local_start.strftime("%H:%M")
 
     def save(self, commit=True):
         """Сохраняет изменённые дату и время бронирования."""

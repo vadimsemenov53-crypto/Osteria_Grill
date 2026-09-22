@@ -209,6 +209,7 @@ def table_bookings(request):
     """Функция отслеживания бронирования столов по дате через get-запрос. Передача данный для JS-скрипта."""
     table_id = request.GET.get("table_id")
     booking_date = request.GET.get("date")
+    booking_id = request.GET.get("booking_id")
 
     bookings = Booking.objects.filter(
         table_id=table_id,
@@ -218,6 +219,9 @@ def table_bookings(request):
             Booking.Status.CONFIRMED,
         ],
     ).order_by("start_at")
+
+    if booking_id:
+        bookings = bookings.exclude(pk=booking_id)
 
     data = [
         {
