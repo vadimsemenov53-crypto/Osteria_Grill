@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, UpdateView, View
 
 from content.models import ContentRestaurantAbout, ContentRestaurantHome
@@ -16,6 +18,7 @@ from restaurant.forms import BookingModelForm, BookingUpdateForm, ContactFormMod
 from restaurant.models import Booking, RestaurantEmployee, RestaurantService, Table
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class HomeView(View):
     """Контроллер главной страницы."""
 
@@ -52,6 +55,7 @@ class HomeView(View):
         return render(request, self.template_name, context)
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class RestaurantAboutView(View):
     """Контроллер для представления страницы о ресторане."""
 

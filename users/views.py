@@ -62,7 +62,8 @@ def email_verification(request, token):
 
     send_mail(
         subject="Добро пожаловать в OSTERIA GRILL",
-        message="Спасибо за регистрацию! Теперь вам доступны бронирование столов онлайн, сервис доставки, оплата онлайн.",
+        message="Спасибо за регистрацию! "
+        "Теперь вам доступны бронирование столов онлайн, сервис доставки, оплата онлайн.",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[user.email],
     )

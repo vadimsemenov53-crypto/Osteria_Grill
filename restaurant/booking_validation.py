@@ -83,8 +83,6 @@ class BookingValidationMixin:
             bookings = bookings.exclude(pk=self.instance.pk)
 
         if bookings.exists():
-            raise forms.ValidationError(
-                "Выбранное время уже занято. Пожалуйста, выберите другое."
-            )
+            raise forms.ValidationError("Выбранное время уже занято. Пожалуйста, выберите другое.")
 
         return cleaned_data
