@@ -1,7 +1,9 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 from django import forms
 from django.utils import timezone
+
+from restaurant.models import Booking
 
 
 class BookingValidationMixin:
@@ -36,6 +38,7 @@ class BookingValidationMixin:
 
         booking_date = cleaned_data.get("booking_date")
         booking_time = cleaned_data.get("booking_time")
+        table = cleaned_data.get("table")
 
         if booking_time:
             booking_time = datetime.strptime(
@@ -57,5 +60,31 @@ class BookingValidationMixin:
 
         if booking_time > time(22, 0):
             raise forms.ValidationError("Последнее время начала бронирования — 22:00.")
+
+        start_at = datetime.combine(
+            booking_date,
+            booking_time,
+        )
+
+        start_at = timezone.make_aware(start_at)
+        end_at = start_at + timedelta(hours=2)
+
+        bookings = Booking.objects.filter(
+            table=table,
+            status__in=[
+                Booking.Status.PENDING,
+                Booking.Status.CONFIRMED,
+            ],
+            start_at__lt=end_at,
+            end_at__gt=start_at,
+        )
+
+        if self.instance.pk:
+            bookings = bookings.exclude(pk=self.instance.pk)
+
+        if bookings.exists():
+            raise forms.ValidationError(
+                "Выбранное время уже занято. Пожалуйста, выберите другое."
+            )
 
         return cleaned_data
