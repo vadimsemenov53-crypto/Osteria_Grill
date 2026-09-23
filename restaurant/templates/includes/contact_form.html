@@ -1,0 +1,100 @@
+<div class="container mt-5">
+    <div class="card h-100 shadow-sm border-5">
+        <form method="post" action="" class="form-floating">
+            <div>
+                <h4 class="mt-2 text-center">
+                    <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                    Форма обратной связи.
+                </h4>
+            </div>
+            <hr>
+            {% csrf_token %}
+            <div class="ms-5 me-5 my-3">
+                <label for="first_name">Имя</label>
+                <input type="text" name="first_name" class="form-control" id="first_name"
+                       placeholder="Ваше имя"
+                       required>
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="last_name">Фамилия</label>
+                <input type="text" name="last_name" class="form-control" id="last_name"
+                       placeholder="Ваша фамилия"
+                       required>
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="phone">Телефон</label>
+                <input type="text" name="phone" class="form-control" id="phone"
+                       placeholder="Контактный телефон" required>
+
+                {% if form.phone.errors %}
+                <div class="text-danger mt-1">
+                    {{ form.phone.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+            <hr>
+            <div class="ms-5 me-5 my-3">
+                <label for="email">Почта</label>
+                <input type="email" name="email" class="form-control" id="email"
+                       placeholder="Ваша почта (можно не указывать)">
+
+                {% if form.email.errors %}
+                <div class="text-danger mt-1">
+                    {{ form.email.errors }}
+                </div>
+                {% endif %}
+
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-block btn-outline-light ms-5 me-5 my-3">Отправить</button>
+        </form>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="modal fade js-auto-modal"
+     id="contactSuccessModal"
+     tabindex="-1"
+     aria-labelledby="contactSuccessModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactSuccessModalLabel">
+                    Сообщение отправлено
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Закрыть">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-0">
+                    {{ message }}
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-dark"
+                        data-bs-dismiss="modal">
+                    Понятно
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}

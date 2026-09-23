@@ -1,0 +1,82 @@
+<footer class="bg-dark text-white mt-5">
+    <div class="container py-5">
+        <div class="row g-4">
+
+            <!-- О ресторане -->
+            <div class="col-12 col-md-5">
+                <h4 class="mb-3">{{ site_content.rest_name }}</h4>
+
+                <p class="text-secondary mb-3">
+                    {{ site_content.rest_title }}
+                </p>
+
+                <small class="text-secondary">
+                    &copy; 2026 {{ site_content.rest_name }}. Все права защищены.
+                </small>
+            </div>
+
+            <!-- Контакты -->
+            <div class="col-12 col-md-3">
+                <h5 class="mb-3">Контакты</h5>
+
+                <ul class="list-unstyled text-secondary">
+                    <li class="mb-2">
+                        {{ site_content.address }}
+                    </li>
+                    <li class="mb-2">
+                        {{ site_content.phone }}
+                    </li>
+                    <li>
+                        {{ site_content.email }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Навигация -->
+            <div class="col-12 col-md-4">
+                <h5 class="mb-3">Навигация</h5>
+
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="{% url 'restaurant:home' %}" class="text-secondary text-decoration-none">
+                            Главная
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'restaurant:about' %}" class="text-secondary text-decoration-none">
+                            О ресторане
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="{% url 'restaurant:booking' %}" class="text-secondary text-decoration-none">
+                            Бронирование столика
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'restaurant:booking_list' %}" class="text-secondary text-decoration-none">
+                            Мои бронирования
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <hr class="border-secondary my-4">
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <small class="text-secondary">
+                Добро пожаловать в {{ site_content.rest_name }}
+            </small>
+
+            <div class="mt-2 mt-md-0">
+                <a href="#" class="text-secondary text-decoration-none me-3">
+                    Telegram
+                </a>
+                <a href="#" class="text-secondary text-decoration-none">
+                    Instagram
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>

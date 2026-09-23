@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load restaurant_tags %}
+
+{% block title %}Osteria Grill - Наша история и ваши счастливые дни.{% endblock %}
+
+{% block content %}
+
+<section class="py-5 mt-5 bg-semi-transparent">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+
+                <h2 class="fw-bold mb-4">{{ content.history_title }}</h2>
+                <p class="lead text-body">
+                    {{ content.history_p1 }}
+                </p>
+                {{ content.history_p2|linebreaks }}
+            </div>
+            <div class="col-lg-5 mt-2 ms-5">
+                <img src="{{ content.image_history.url }}"
+                     class="img-fluid rounded-5 shadow-sm"
+                     style="height: 500px; object-fit: cover;"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-5 mt-5 bg-semi-transparent">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mt-2 ms-2">
+                <img src="{{ content.chef_image.url }}"
+                     class="img-fluid rounded-5 shadow-sm"
+                     style="height: 400px; object-fit: cover;"
+                >
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">{{ content.chef_title }}</h2>
+
+                <p class="lead text-body">
+                    {{ content.chef_p1 }}
+                </p>
+
+                <div class="mb-3">
+                    <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#mario-story"
+                            aria-expanded="false"
+                            aria-controls="mario-story">
+                        Читать историю шефа
+                    </button>
+                </div>
+
+                <div id="mario-story" class="collapse">
+                    <div class="container">
+                        {{ content.chef_p2|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-5 mt-5 bg-semi-transparent">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold fs-2 mb-4">{{ content.mission_title }}</h2>
+                <p class="lead text-body">
+                    {{ content.mission }}
+                </p>
+            </div>
+
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <h4 class="fw-bold mb-3">{{ content.value_title }}</h4>
+
+                <ul class="small values-list">
+                    {% for value in content.values.splitlines %}
+                    <li class="mb-2">{{ value }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "includes/carousel_employee.html" %}
+
+{% endblock %}

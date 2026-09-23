@@ -1,0 +1,160 @@
+<form method="post" action="" class="form-floating">
+    {% csrf_token %}
+    <div class="modal fade"
+         id="bookingModal"
+         tabindex="-1"
+         aria-hidden="true"
+         data-form-errors="{% if form.errors %}true{% else %}false{% endif %}"
+    >
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Забронировать стол
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+
+                <div class="modal-body">
+                    <h5 id="bookingTableNumber">Стол</h5>
+
+                    <p id="bookingTableCapacity" class="text-body-secondary"></p>
+
+                    <strong id="bookingTableCategory"></strong>
+
+                    <hr>
+
+                    <input type="hidden"
+                           name="table"
+                           id="bookingTableId"
+                           value="{{ selected_table_id|default:'' }}"
+                    >
+
+                    <div class="mb-3">
+                        <label for="bookingDate" class="form-label">
+                            Дата
+                        </label>
+
+                        {% if form.booking_date.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.booking_date.errors }}
+                        </div>
+                        {% endif %}
+
+                        <input type="date"
+                               id="bookingDate"
+                               name="booking_date"
+                               class="form-control"
+                               value="{{ form.booking_date.value|default:'' }}"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Время
+                        </label>
+
+                        {% if form.non_field_errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.non_field_errors }}
+                        </div>
+                        {% endif %}
+
+                        {{ form.booking_time }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bookingGuests" class="form-label">
+                            Количество гостей
+                        </label>
+
+                        {% if form.guests.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.guests.errors|striptags }}
+                        </div>
+                        {% endif %}
+
+                        <input type="number"
+                               id="bookingGuests"
+                               name="guests"
+                               class="form-control"
+                               min="1"
+                               value="{{ form.guests.value|default:'1' }}"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bookingComment" class="form-label">
+                            Комментарий (не обязательно)
+                        </label>
+
+                        <input type="text"
+                               id="bookingComment"
+                               name="comment"
+                               class="form-control"
+                               value="{{ form.comment.value|default:'' }}"
+                        >
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Отмена
+                    </button>
+
+                    <button type="submit" class="btn btn-light">
+                        Забронировать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="modal fade js-auto-modal"
+     id="bookingSuccessModal"
+     tabindex="-1"
+     aria-labelledby="bookingSuccessModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingSuccessModalLabel">
+                    Заявка на бронирование
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Закрыть">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-0">
+                    {{ message }}
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-dark"
+                        data-bs-dismiss="modal">
+                    Понятно
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}

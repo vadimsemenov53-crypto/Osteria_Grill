@@ -1,0 +1,100 @@
+<section class="py-5 mt-5 bg-semi-transparent">
+    <div class="container">
+
+        <h2 class="fw-bold text-center mb-5">
+            Наша команда
+        </h2>
+
+        <div id="employeesCarousel"
+             class="carousel slide"
+             data-bs-ride="false">
+
+            <div class="carousel-inner">
+
+                {% for employee in employees %}
+                {% if forloop.counter0|divisibleby:3 %}
+
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="row justify-content-center g-4">
+
+                        {% endif %}
+
+                        <div class="col-12 col-md-4">
+                            <div class="card h-100 border-0 shadow-sm">
+
+                                <img src="{{ employee.photo.url }}"
+                                     class="card-img-top"
+                                     alt="{{ employee.first_name }} {{ employee.last_name }}"
+                                     style="height: 320px; object-fit: cover;">
+
+                                <div class="card-body text-center">
+
+                                    <h5 class="fw-bold">
+                                        {{ employee.first_name }}
+                                        {{ employee.last_name }}
+                                    </h5>
+
+                                    <p class="text-body-secondary mb-2">
+                                        {{ employee.get_post_display }}
+                                    </p>
+
+                                    {% if employee.work_experience %}
+                                    <small class="text-body-secondary">
+                                        Опыт:
+                                        {{ employee.work_experience }}
+                                        лет
+                                    </small>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {% if forloop.counter|divisibleby:3 or forloop.last %}
+
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <button class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#employeesCarousel"
+                    data-bs-slide="prev"
+                    style="left: -120px;">
+
+                <span class="carousel-control-prev-icon"
+                      aria-hidden="true"
+                      style="filter: invert(1);">
+                </span>
+
+                <span class="visually-hidden">
+                    Назад
+                </span>
+            </button>
+
+            <button class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#employeesCarousel"
+                    data-bs-slide="next"
+                    style="right: -120px;">
+
+                <span class="carousel-control-next-icon"
+                      aria-hidden="true"
+                      style="filter: invert(1);">
+
+                </span>
+
+                <span class="visually-hidden">
+                    Вперёд
+                </span>
+            </button>
+
+        </div>
+
+    </div>
+</section>

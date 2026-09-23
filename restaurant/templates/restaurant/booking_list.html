@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Osteria Grill - Ваши бронирования.{% endblock %}
+
+{% block content %}
+
+<div class="container py-5 bg-semi-transparent mt-5">
+    <h3>Ваши бронирования</h3>
+    <div class="list-group">
+        {% for booking in object_list %}
+        <div class="list-group-item d-flex align-items-center justify-content-between">
+            <div class="me-4">
+                <div><strong>Стол №{{ booking.table.number }}</strong></div>
+
+                <small class="text-muted">
+                    {{ booking.start_at|date:"j F" }}
+                    с {{ booking.start_at|date:"H:i" }}
+                    до {{ booking.end_at|date:"H:i" }}
+                </small>
+
+                <br>
+                <small class="text-muted">
+                    Состояние: {{ booking.get_status_display }}
+                </small>
+
+                {% if booking.comment %}
+                <br>
+                <small class="text-muted">
+                    Комментарий: {{ booking.comment }}
+                </small>
+                {% endif %}
+            </div>
+
+            <div>
+                <a href="{% url 'restaurant:booking_update' booking.pk %}" class="btn btn-sm btn-outline-primary me-2">Изменить</a>
+
+                {% if booking.status != "cancelled"  %}
+                <form method="post" action="{% url 'restaurant:booking_cancel' booking.pk %}"
+                      class="d-inline">
+                    {% csrf_token %}
+
+                    <button type="submit"
+                            class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Вы уверены, что хотите отменить бронирование?');">
+                        Отменить
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center text-body-secondary">Бронирований нет</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "success" %}
+<div class="modal fade js-auto-modal"
+     id="bookingCancelledModal"
+     tabindex="-1"
+     aria-labelledby="bookingCancelledModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingCancelledModalLabel">
+                    Бронирование отменено
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Закрыть">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-0">
+                    {{ message }}
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-dark"
+                        data-bs-dismiss="modal">
+                    Понятно
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% load static %}
+<script src="{% static 'js/modal_window.js' %}"></script>
+
+{% endblock %}
