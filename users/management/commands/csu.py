@@ -5,13 +5,19 @@ from users.models import User
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        user = User.objects.create(
+        user, created = User.objects.get_or_create(
             email="admin@gmail.com",
+            defaults={
+                "is_active": True,
+                "is_superuser": True,
+                "is_staff": True,
+            },
         )
-        user.set_password("7777")
-        user.is_active = True
-        user.is_superuser = True
-        user.is_staff = True
-        user.save()
 
-        self.stdout.write(self.style.SUCCESS(f"Суперпользователь успешно создан; email: {user.email}"))
+        if created:
+            user.set_password("7777")
+            user.save()
+
+            self.stdout.write(self.style.SUCCESS(f"Суперпользователь создан: {user.email}"))
+        else:
+            self.stdout.write(self.style.WARNING(f"Суперпользователь уже существует: {user.email}"))
