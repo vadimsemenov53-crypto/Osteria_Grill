@@ -1,0 +1,88 @@
+from datetime import datetime, time, timedelta
+
+from django import forms
+from django.utils import timezone
+
+from restaurant.models import Booking
+
+
+class BookingValidationMixin:
+    """Класс валидации данных для Бронирования столов."""
+
+    def clean_guests(self):
+        """Метод валидации данных ограничивающий выбор 0 количества гостей."""
+        table = self.cleaned_data["table"]
+
+        guests = self.cleaned_data["guests"]
+
+        if guests < 1:
+            raise forms.ValidationError("Количество гостей должно быть не менее 1.")
+
+        if guests > table.capacity:
+            raise forms.ValidationError(f"Количество гостей больше вместимости стола - {table.capacity}")
+
+        return guests
+
+    def clean_booking_date(self):
+        """Метод валидации данных ограничивающий выбор прошедшую дату."""
+        booking_date = self.cleaned_data["booking_date"]
+
+        if booking_date < timezone.localdate():
+            raise forms.ValidationError("Нельзя забронировать стол на прошедшую дату.")
+
+        return booking_date
+
+    def clean(self):
+        """Метод валидации данных ограничивающий выбор времени бронирования."""
+        cleaned_data = super().clean()
+
+        booking_date = cleaned_data.get("booking_date")
+        booking_time = cleaned_data.get("booking_time")
+        table = cleaned_data.get("table")
+
+        if booking_time:
+            booking_time = datetime.strptime(
+                booking_time,
+                "%H:%M",
+            ).time()
+
+        if not booking_date or not booking_time:
+            return cleaned_data
+
+        if booking_date == timezone.localdate():
+            current_time = timezone.localtime().time()
+
+            if booking_time < current_time:
+                raise forms.ValidationError("Нельзя забронировать стол на прошедшее время")
+
+        if booking_time < time(12, 0):
+            raise forms.ValidationError("Ресторан начинает работать с 12:00.")
+
+        if booking_time > time(22, 0):
+            raise forms.ValidationError("Последнее время начала бронирования — 22:00.")
+
+        start_at = datetime.combine(
+            booking_date,
+            booking_time,
+        )
+
+        start_at = timezone.make_aware(start_at)
+        end_at = start_at + timedelta(hours=2)
+
+        bookings = Booking.objects.filter(
+            table=table,
+            status__in=[
+                Booking.Status.PENDING,
+                Booking.Status.CONFIRMED,
+            ],
+            start_at__lt=end_at,
+            end_at__gt=start_at,
+        )
+
+        if self.instance.pk:
+            bookings = bookings.exclude(pk=self.instance.pk)
+
+        if bookings.exists():
+            raise forms.ValidationError("Выбранное время уже занято. Пожалуйста, выберите другое.")
+
+        return cleaned_data

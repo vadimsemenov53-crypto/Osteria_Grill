@@ -1,0 +1,54 @@
+{% load restaurant_tags %}
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #6b0000;">
+    <div class="container-fluid">
+        <img src="{{ site_content.logo.url }}" alt="{{ site_content.rest_name }}"
+             width="120" height="120"
+             class="rounded-5">
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav navbar-main-menu">
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'restaurant:home' %}">Главная</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'restaurant:about' %}">О ресторане</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'restaurant:booking' %}">Бронирования</a>
+                </li>
+            </ul>
+
+            {% if user.is_authenticated %}
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Личный кабинет
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'users:detail' %}">Мой профиль</a></li>
+                        <li><a class="dropdown-item" href="{% url 'restaurant:booking_list' %}">Мои бронирования</a></li>
+                        <li>
+                            <form method="post" action="{% url 'users:logout' %}" style="display: inline">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item btn-outline-light">Выйти</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            {% else %}
+            <a class="btn btn-light mx-2 ms-auto" href="{% url 'users:register' %}">Зарегистрироваться</a>
+            <a class="btn btn-light mx-2" href="{% url 'users:login' %}">Вход</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+</nav>
+

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load restaurant_tags %}
+
+{% block title %}Osteria Grill - Наша кухня с итальянским акцентом.{% endblock %}
+
+{% block content %}
+
+<section class="py-5 mt-5 bg-semi-transparent">
+    <div class="container">
+
+        <h1 class="text-center mb-3">
+            Забронировать стол
+        </h1>
+
+        <h5 class="text-center mb-2">
+            Рабочие часы
+        </h5>
+
+        <h4 class="text-center mb-5">
+            С 12:00 до 00:00
+        </h4>
+
+        <div class="restaurant-plan">
+
+            {% include "includes/window_booking.html" %}
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="restaurant-window">ОКНА</div>
+                </div>
+
+                <div class="col-1"></div>
+
+                <div class="col-2 ms-auto">
+                    <div class="restaurant-entrance">ВХОД</div>
+                </div>
+
+                <div class="col-1"></div>
+
+                <div class="col-4 ms-auto">
+                    <div class="restaurant-window">ОКНА</div>
+                </div>
+            </div>
+
+            <div class="restaurant-tables">
+
+                {% for table in tables %}
+                <button
+                        class="restaurant-table
+                {% if table.capacity >= 6 %} restaurant-table-large {% endif %}
+                {% if table.capacity <= 2 %} restaurant-table-small {% endif %}"
+                        type="button"
+
+                        data-table-id="{{ table.id }}"
+                        data-table-number="{{ table.number }}"
+                        data-table-capacity="{{ table.capacity }}"
+                        data-table-category="{{ table.category }}"
+                >
+
+                    <strong>№{{ table.number }}</strong>
+                    <small>
+                        {{ table.capacity }} мест
+                    </small>
+
+                    {% if table.category == "VIP" %}
+                    <strong>{{ table.get_category_display }}</strong>
+                    {% endif %}
+
+                </button>
+                {% endfor %}
+
+            </div>
+
+            <div class="restaurant-bar"> БАР</div>
+        </div>
+
+
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% load static %}
+<script src="{% static 'js/modal_window_booking.js' %}"></script>
+<script src="{% static 'js/modal_window.js' %}"></script>
+
+{% endblock %}
