@@ -36,8 +36,7 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
 
-        host = self.request.get_host()
-        url = f"http://{host}/users/email-confirm/{token}/"
+        url = f"http://{settings.SITE_URL}/users/email-confirm/{token}/"
 
         send_mail(
             subject="OSTERIA GRILL Подтверждение почты",
