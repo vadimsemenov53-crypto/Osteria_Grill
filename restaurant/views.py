@@ -182,7 +182,12 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("restaurant:booking_list")
     raise_exception = True
 
+    def get_queryset(self):
+        """Метод исключения редактирования чужих данных."""
+        return Booking.objects.filter(user=self.request.user)
+
     def get_success_url(self):
+        """Метод возврата после успешного редактирования."""
         return reverse("restaurant:booking_list")
 
 
