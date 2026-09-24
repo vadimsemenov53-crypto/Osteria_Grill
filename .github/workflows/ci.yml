@@ -27,8 +27,12 @@ jobs:
 
       CSRF_TRUSTED_ORIGINS: "http://localhost"
 
-      EMAIL_HOST_USER: example1111@yandex.ru
-      EMAIL_HOST_PASSWORD: pppzzzpzpz
+      EMAIL_HOST: smtp.yandex.ru
+      EMAIL_PORT: 465
+      EMAIL_USE_SSL: "True"
+      EMAIL_USE_TLS: "False"
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
     services:
       postgres:
