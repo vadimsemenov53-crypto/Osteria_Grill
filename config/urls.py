@@ -19,11 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("restaurant/", include("restaurant.urls", namespace="restaurant")),
     path("users/", include("users.urls", namespace="users")),
+    path("", RedirectView.as_view(pattern_name="restaurant:home", permanent=False)),
 ]
 
 if settings.DEBUG:
