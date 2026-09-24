@@ -133,8 +133,7 @@ class BookingView(View):
                 Перейдите на почту для подтверждения бронирования.""",
             )
 
-            host = self.request.get_host()
-            url = f"http://{host}/restaurant/booking-confirm/{token}/"
+            url = f"http://{settings.SITE_URL}/restaurant/booking-confirm/{token}/"
 
             send_mail(
                 subject="OSTERIA GRILL Подтверждение бронирования",
