@@ -837,6 +837,116 @@ http://localhost/admin/
 
 ---
 
+## Автодеплой на удалённый сервер
+
+Для автоматического деплоя приложения на удалённый сервер через GitHub Actions необходимо добавить следующие **Repository Secrets**:
+
+**GitHub → Settings → Secrets and variables → Actions → New repository secret**
+
+| Secret                    | Назначение                                           |
+| ------------------------- | ---------------------------------------------------- |
+| `DOCKER_HUB_ACCESS_TOKEN` | Access Token для авторизации в Docker Hub            |
+| `DOCKER_HUB_USERNAME`     | Username пользователя Docker Hub                     |
+| `EMAIL_HOST_PASSWORD`     | Пароль от почтового сервиса                          |
+| `EMAIL_HOST_USER`         | Email пользователя для отправки писем                |
+| `SERVER_IP`               | IP-адрес удалённой ВМ, на которую выполняется деплой |
+| `SSH_KEY`                 | Приватный SSH-ключ для подключения к удалённой ВМ    |
+| `SSH_USER`                | Пользователь для SSH-подключения к удалённой ВМ      |
+
+### Клонирование проекта и настройка ВМ
+
+- Создайте свою ВМ и подключитесь к ней.
+- Далее используйте готовые команды для ее настройки
+- Ручная настройка осуществляется один раз далее будет работать авто-деплой.
+
+````
+- sudo apt update
+- sudo apt upgrade
+
+Скрипт установки Docker ->
+
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+
+- Настройка файрвола ->
+
+sudo ufw status
+sudo ufw enable
+
+-- Открываем необходимые порты ->
+
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 22/tcp
+
+- Установка Git ->
+
+sudo apt update
+sudo apt install git
+git --version
+git clone https://github.com/vadimsemenov53-crypto/Osteria_Grill.git
+````
+
+
+### Настройка `.env`
+
+На удалённой ВМ необходимо создать файл `.env` в корневой директории проекта.
+
+Для доступа к приложению по IP-адресу удалённого сервера укажите:
+
+```env
+cd ~/Osteria_Grill
+nano .env  (за основу брать .env.sample)
+
+# URL для доступа к приложению на удалённой ВМ
+SITE_URL=22.22.222.222
+```
+
+Замените `22.22.222.222` на фактический IP-адрес вашей удалённой ВМ.
+
+### Первый пуск проект
+
+`sudo docker-compose up -d --build`
+
+- После данных шагов ваш проект будет доступен по публичному IP вашей ВМ.
+
+### Запуск автодеплоя
+
+После настройки GitHub Secrets и `.env` деплой выполняется автоматически при push в ветку `develop`.
+
+GitHub Actions:
+
+1. собирает Docker image приложения;
+2. публикует image в Docker Hub;
+3. подключается к удалённой ВМ по SSH;
+4. получает актуальный код из репозитория;
+5. загружает новый Docker image;
+6. перезапускает приложение.
+
+> **Важно:** `SSH_KEY` должен соответствовать публичному ключу, добавленному в `~/.ssh/authorized_keys` пользователя `SSH_USER` на удалённой ВМ.
+
+Не добавляйте значения `DOCKER_HUB_ACCESS_TOKEN`, `SSH_KEY`, пароли и другие секреты непосредственно в репозиторий.
+
+
+---
+
 # 📝 Статус проекта
 
 Проект реализует основные функции сайта ресторана:
