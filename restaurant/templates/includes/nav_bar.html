@@ -10,16 +10,26 @@
             <ul class="navbar-nav navbar-main-menu">
 
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'restaurant:home' %}">Главная</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                            href="{% url 'restaurant:home' %}">
+                        Главная
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'restaurant:about' %}">О ресторане</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                       href="{% url 'restaurant:about' %}">
+                        О ресторане
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'restaurant:booking' %}">Бронирования</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'booking' %}active{% endif %}"
+                       href="{% url 'restaurant:booking' %}">
+                        Бронирования
+                    </a>
                 </li>
+
             </ul>
 
             {% if user.is_authenticated %}
@@ -32,7 +42,8 @@
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'users:detail' %}">Мой профиль</a></li>
-                        <li><a class="dropdown-item" href="{% url 'restaurant:booking_list' %}">Мои бронирования</a></li>
+                        <li><a class="dropdown-item" href="{% url 'restaurant:booking_list' %}">Мои бронирования</a>
+                        </li>
                         <li>
                             <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                 {% csrf_token %}

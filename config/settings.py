@@ -160,4 +160,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
-SITE_URL = os.getenv("SITE_URL", "http://localhost")
+SITE_URL = os.getenv("SITE_URL", "localhost")
