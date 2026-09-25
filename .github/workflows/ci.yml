@@ -134,12 +134,17 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            set -e
+
             cd ~/Osteria_Grill
-            git pull origin main
+
+            git fetch origin
+            git reset --hard origin/develop
 
             export IMAGE_TAG=${{ github.sha }}
 
-            docker compose pull
+            docker compose pull web
             docker compose up -d
+
             docker image prune -f
           EOF
