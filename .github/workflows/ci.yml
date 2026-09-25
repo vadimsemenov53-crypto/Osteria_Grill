@@ -134,7 +134,7 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd ~/osteria_grill
+            cd ~/Osteria_Grill
             git pull origin main
 
             export IMAGE_TAG=${{ github.sha }}
